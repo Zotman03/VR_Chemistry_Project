@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.thrashpanda.vr.simulator": "file:/Users/zhenglinning/Desktop/Chem_VR/Assets/VRSimulator/com.thrashpanda.vr.simulator-2.1.0.tgz",
+    "com.thrashpanda.vr.simulator": "file:/Users/sharon/Downloads/daplab/SURP/VR_Test/Assets/VRSimulator/com.thrashpanda.vr.simulator-2.1.0.tgz",
     "com.unity.collab-proxy": "2.0.3",
     "com.unity.feature.development": "1.0.1",
     "com.unity.ide.rider": "3.0.18",
