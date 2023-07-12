@@ -5063,6 +5063,8 @@ GameObject:
   - component: {fileID: 219282531}
   - component: {fileID: 219282533}
   - component: {fileID: 219282532}
+  - component: {fileID: 219282535}
+  - component: {fileID: 219282534}
   m_Layer: 6
   m_Name: PF_Floor_Ceiling(Clone)
   m_TagString: Untagged
@@ -5135,6 +5137,33 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 219282530}
+  m_Mesh: {fileID: 4300000, guid: 762b9b4e46ef49d4e8e0ea4aecfcacac, type: 3}
+--- !u!114 &219282534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219282530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5fe876a77d2b4871819fc332f4cd0a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  new_Scene: David_Test
+--- !u!64 &219282535
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219282530}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 762b9b4e46ef49d4e8e0ea4aecfcacac, type: 3}
 --- !u!1 &221342042
 GameObject:
@@ -17228,6 +17257,7 @@ GameObject:
   - component: {fileID: 730045028}
   - component: {fileID: 730045030}
   - component: {fileID: 730045029}
+  - component: {fileID: 730045031}
   m_Layer: 6
   m_Name: PF_Floor_Ceiling(Clone)
   m_TagString: Untagged
@@ -17300,6 +17330,20 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730045027}
+  m_Mesh: {fileID: 4300000, guid: 762b9b4e46ef49d4e8e0ea4aecfcacac, type: 3}
+--- !u!64 &730045031
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730045027}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 762b9b4e46ef49d4e8e0ea4aecfcacac, type: 3}
 --- !u!1001 &736833729
 PrefabInstance:
