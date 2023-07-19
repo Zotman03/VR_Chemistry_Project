@@ -5,9 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Test_Laboratory.unity
     guid: 9353ff5bda2eb475dafd98c1b74bd2eb
+  - enabled: 1
+    path: Assets/Scenes/DavidJumpFrom.unity
+    guid: b872f1c15e7574daa96263e13d52ce3a
+  - enabled: 1
+    path: Assets/Scenes/DavidJumpTo.unity
+    guid: f23d90e2d025c496da83c45adaacb032
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c70f270967a75488fbfa35f2b165eaeb, type: 2}
     com.unity.xr.management.vr_sim_settings: {fileID: 11400000, guid: b232813f1982e4e669b55b6303a69198, type: 2}
