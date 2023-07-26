@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Samples/XR Hands/1.1.0/HandVisualizer/Models/LeftHand.fbx.meta
 guid: bf7151579c38e2a44be94ba8773876c1
+========
+guid: 67b9f8aa930c44a8eacb31ec69528e6e
+>>>>>>>> main:Assets/Materials/Blender/flask.blend.meta
 ModelImporter:
   serializedVersion: 20300
   internalIDToNameTable: []
