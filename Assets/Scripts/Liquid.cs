@@ -7,6 +7,7 @@ public class Liquid : MonoBehaviour
 {
     public enum UpdateMode { Normal, UnscaledTime }
     public UpdateMode updateMode;
+    public Renderer liquidRenderer;
 
     [SerializeField]
     float MaxWobble = 0.03f;
@@ -44,7 +45,7 @@ public class Liquid : MonoBehaviour
     void Start()
     {
         scaledFillAmount = .27f + (.73f - .25f) * (1 - fillAmount);
-
+        liquidRenderer = GetComponent<Renderer>();
         GetMeshAndRend();
     }
 

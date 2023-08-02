@@ -8,7 +8,8 @@
         [HDR]_TopColor ("Top Color", Color) = (1,1,1,1)
         [Header(Foam)]
         [HDR]_FoamColor ("Foam Line Color", Color) = (1,1,1,1)
-        _Line ("Foam Line Width", Range(0,0.1)) = 0.0    
+        //_Line ("Foam Line Width", Range(0,0.1)) = 0.0
+        _Line ("Foam Line Width", Range(0,1)) = 0.0      
         _LineSmooth ("Foam Line Smoothness", Range(0,0.1)) = 0.0    
         [Header(Rim)]
         [HDR]_RimColor ("Rim Color", Color) = (1,1,1,1)

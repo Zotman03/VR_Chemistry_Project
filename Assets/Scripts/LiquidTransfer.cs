@@ -10,6 +10,10 @@ public class LiquidTransfer : MonoBehaviour
     public Liquid grabbableLiquid;
     [SerializeField, Range(0f, 1f)]
     public float transferRate = 0.2f;
+    [SerializeField]
+    private float foamWidthIncreaseRate = 0.5f;
+    [SerializeField]
+    private float foamSmoothIncreaseRate = 0.2f;
 
     private void Start()
     {
@@ -22,7 +26,7 @@ public class LiquidTransfer : MonoBehaviour
         {
             float transferAmount = transferRate * Time.deltaTime;
 
-            if (grabbableLiquid.fillAmount > 0f)
+            if (grabbableLiquid.fillAmount > 0f && (socketLiquid.fillAmount + transferAmount < 1f || socketLiquid.fillAmount + grabbableLiquid.fillAmount < 1f))
             {
                 if (grabbableLiquid.fillAmount > transferRate)
                 {
@@ -34,8 +38,19 @@ public class LiquidTransfer : MonoBehaviour
                     socketLiquid.fillAmount = Mathf.Clamp(socketLiquid.fillAmount + grabbableLiquid.fillAmount, 0f, 1f);
                     grabbableLiquid.fillAmount = 0f;
                 }
-                Debug.Log("grabbableLiquid.fillAmount " + grabbableLiquid.fillAmount.ToString());
-                Debug.Log("socketedLiquid.fillAmount " + socketLiquid.fillAmount.ToString());
+
+                // Foam properties and color adjustments
+                float socketLineWidth = socketLiquid.liquidRenderer.material.GetFloat("_Line");
+                float socketLineSmooth = socketLiquid.liquidRenderer.material.GetFloat("_LineSmooth");
+
+                socketLineWidth += foamWidthIncreaseRate * Time.deltaTime;
+                socketLineSmooth += foamSmoothIncreaseRate * Time.deltaTime;
+
+                socketLiquid.liquidRenderer.material.SetFloat("_LineWidth", socketLineWidth);
+                socketLiquid.liquidRenderer.material.SetFloat("_LineSmooth", socketLineSmooth);
+
+                Color grabTopColor = grabbableLiquid.liquidRenderer.material.GetColor("_TopColor");
+                socketLiquid.liquidRenderer.material.SetColor("_FoamColor", grabTopColor);
             }
         }
         else if (grabbableLiquid.isSocketed == true)
