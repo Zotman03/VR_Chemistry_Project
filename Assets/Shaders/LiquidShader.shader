@@ -1,4 +1,4 @@
-Shader "Unlit/FX/Liquid"
+ Shader "Unlit/FX/Liquid"
 {
     Properties
     {
@@ -27,7 +27,7 @@ Shader "Unlit/FX/Liquid"
             Zwrite On
             Cull Off // we want the front and back faces
             AlphaToMask On // transparency
-
+ 
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -40,7 +40,7 @@ Shader "Unlit/FX/Liquid"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                float3 normal : NORMAL;	
+                float3 normal : NORMAL; 
             };
             
             struct v2f
@@ -49,20 +49,20 @@ Shader "Unlit/FX/Liquid"
                 UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
                 float3 viewDir : COLOR;
-                float3 normal : COLOR2;		
+                float3 normal : COLOR2;     
                 float3 fillPosition : TEXCOORD2;
                 float3 worldNormal : TEXCOORD3;
             };
             
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float3 _FillAmt;
+            float3 _FillAmount;
             float _WobbleX, _WobbleZ;
             float4 _TopColor, _RimColor, _FoamColor, _Tint;
             float _Line, _RimPower, _LineSmooth;
             float _Freq, _Amplitude;
-
-
+ 
+ 
             // https://docs.unity3d.com/Packages/com.unity.shadergraph@6.9/manual/Rotate-About-Axis-Node.html
             float3 Unity_RotateAboutAxis_Degrees(float3 In, float3 Axis, float Rotation)
             {
@@ -70,7 +70,7 @@ Shader "Unlit/FX/Liquid"
                 float s = sin(Rotation);
                 float c = cos(Rotation);
                 float one_minus_c = 1.0 - c;
-
+ 
                 Axis = normalize(Axis);
                 float3x3 rot_mat = 
                 {   one_minus_c * Axis.x * Axis.x + c, one_minus_c * Axis.x * Axis.y - Axis.z * s, one_minus_c * Axis.z * Axis.x + Axis.y * s,
@@ -80,18 +80,18 @@ Shader "Unlit/FX/Liquid"
                 float3 Out = mul(rot_mat,  In);
                 return Out;
             }
-
-
+ 
+ 
             v2f vert (appdata v)
             {
                 v2f o;
-
+ 
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 // get world position of the vertex - transform position
                 float3 worldPos = mul (unity_ObjectToWorld, v.vertex.xyz);  
-                float3 worldPosOffset = float3(worldPos.x, worldPos.y , worldPos.z) - _FillAmt;
+                float3 worldPosOffset = float3(worldPos.x, worldPos.y , worldPos.z) - _FillAmount;
                 // rotate it around XY
                 float3 worldPosX= Unity_RotateAboutAxis_Degrees(worldPosOffset, float3(0,0,1),90);
                 // rotate around XZ
@@ -99,7 +99,7 @@ Shader "Unlit/FX/Liquid"
                 // combine rotations with worldPos, based on sine wave from script
                 float3 worldPosAdjusted = worldPos + (worldPosX  * _WobbleX)+ (worldPosZ* _WobbleZ); 
                 // how high up the liquid is
-                o.fillPosition =  worldPosAdjusted - _FillAmt;
+                o.fillPosition =  worldPosAdjusted - _FillAmount;
                 o.viewDir = normalize(WorldSpaceViewDir(v.vertex));
                 o.normal = v.normal;
                 o.worldNormal  = mul ((float4x4)unity_ObjectToWorld, v.normal );
@@ -118,34 +118,34 @@ Shader "Unlit/FX/Liquid"
                 float wobbleIntensity =  abs(_WobbleX) + abs(_WobbleZ);            
                 float wobble = sin((i.fillPosition.x * _Freq) + (i.fillPosition.z * _Freq ) + ( _Time.y)) * (_Amplitude *wobbleIntensity);               
                 float movingfillPosition = i.fillPosition.y + wobble;
-
+ 
                 // sample the texture based on the fill line
                 fixed4 col = tex2D(_MainTex, movingfillPosition) * _Tint;
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
-
+ 
                 // foam edge
                 float cutoffTop = step(movingfillPosition, 0.5);
                 float foam = cutoffTop * smoothstep(0.5 - _Line- _LineSmooth, 0.5 - _Line ,movingfillPosition);
                 float4 foamColored = foam * _FoamColor;
-
+ 
                 // rest of the liquid minus the foam
                 float result = cutoffTop - foam;
                 float4 resultColored = result * col;
-
+ 
                 // both together, with the texture
-                float4 finalResult = resultColored + foamColored;				
+                float4 finalResult = resultColored + foamColored;               
                 finalResult.rgb += RimResult;
-
+ 
                 // little edge on the top of the backfaces
                 float backfaceFoam = (cutoffTop * smoothstep(0.5 - (0.2 * _Line)- _LineSmooth,0.5 - (0.2 * _Line),movingfillPosition ));
                 float4 backfaceFoamColor = _FoamColor * backfaceFoam;
                 // color of backfaces/ top
                 float4 topColor = (_TopColor * (1-backfaceFoam) + backfaceFoamColor) * (foam + result);
-
+ 
                 // clip above the cutoff
                 clip(result + foam - 0.01);
-
+ 
                 //VFACE returns positive for front facing, negative for backfacing
                 return facing > 0 ? finalResult: topColor;
                 
