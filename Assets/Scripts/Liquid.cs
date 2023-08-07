@@ -86,8 +86,6 @@ public class Liquid : MonoBehaviour
 
         if (deltaTime != 0)
         {
-
-
             // decrease wobble over time
             wobbleAmountToAddX = Mathf.Lerp(wobbleAmountToAddX, 0, (deltaTime * Recovery));
             wobbleAmountToAddZ = Mathf.Lerp(wobbleAmountToAddZ, 0, (deltaTime * Recovery));

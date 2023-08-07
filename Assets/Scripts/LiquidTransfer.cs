@@ -77,14 +77,14 @@ public class LiquidTransfer : MonoBehaviour
         duplicate.transform.parent = transform.parent;
         // Make the duplicate slightly larger
         duplicate.transform.localScale = transform.localScale * 1.05f;
+        // Set the y value of the duplicate's position to be less than the original
+        duplicate.transform.localPosition = new Vector3(duplicate.transform.localPosition.x, duplicate.transform.localPosition.y - 0.008f, duplicate.transform.localPosition.z);
         // Remove the script from the duplicated object
         Destroy(duplicate.GetComponent<LiquidTransfer>());
         // Remove the XRSocketInteractor from the duplicate
         XRSocketInteractor socketInteractor = duplicate.GetComponent<XRSocketInteractor>();
         if (socketInteractor != null)
-        {
             Destroy(socketInteractor);
-        }
         // Delete all children from the duplicate
         foreach (Transform child in duplicate.transform)
         {
