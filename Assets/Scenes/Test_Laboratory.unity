@@ -5493,6 +5493,60 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 225450097}
   m_Mesh: {fileID: 4300006, guid: c5409f51e4ee0914dbc5f52a1dc8bf51, type: 3}
+--- !u!21 &227279808
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Unlit_FX_Liquid (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance)
+  m_Shader: {fileID: 4800000, guid: 14b30f81224de4357a992dc4bc8475ad, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Amplitude: 0.15
+    - _Freq: 7.8
+    - _Line: 0.016
+    - _LineSmooth: 0.021
+    - _RimPower: 2.4
+    m_Colors:
+    - _FoamColor: {r: 0, g: 0.4862745, b: 1, a: 1}
+    - _RimColor: {r: 0.09803922, g: 0, b: 0.6792453, a: 1}
+    - _Tint: {r: 0, g: 0.4862745, b: 1, a: 1}
+    - _TopColor: {r: 0, g: 0.4862745, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1001 &227374301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15594,6 +15648,59 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 666961137}
   m_Mesh: {fileID: 4300010, guid: c5409f51e4ee0914dbc5f52a1dc8bf51, type: 3}
+--- !u!21 &674083423
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Unlit_FX_Liquid (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 14b30f81224de4357a992dc4bc8475ad, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Amplitude: 0.15
+    - _Freq: 7.8
+    - _Line: 0
+    - _LineSmooth: 0
+    - _RimPower: 2.4
+    m_Colors:
+    - _FoamColor: {r: 0, g: 0.48640442, b: 1, a: 1}
+    - _RimColor: {r: 0.09727435, g: 0, b: 0.6792453, a: 1}
+    - _Tint: {r: 0.28627452, g: 0, b: 1, a: 1}
+    - _TopColor: {r: 0.28449106, g: 0, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &675553348
 GameObject:
   m_ObjectHideFlags: 0
@@ -16695,7 +16802,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 881215311}
+  - {fileID: 227279808}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18842,9 +18949,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ea7a09ddd2f47078164e86479022a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  socketInteractor: {fileID: 796522579}
-  socketLiquid: {fileID: 1038987014}
-  grabbableLiquid: {fileID: 1585151147}
+  socketInteractor: {fileID: 0}
+  socketLiquid: {fileID: 0}
+  grabbableLiquid: {fileID: 0}
   transferRate: 0.2
   foamWidthIncreaseRate: 0.2
   foamSmoothIncreaseRate: 0.2
@@ -20896,52 +21003,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 879876616}
   m_Mesh: {fileID: 4300000, guid: 94f2a27df662fcd47b8931a7599d2325, type: 3}
---- !u!21 &881215311
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Unlit_FX_Liquid (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-  m_Shader: {fileID: 4800000, guid: 14b30f81224de4357a992dc4bc8475ad, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Amplitude: 0.15
-    - _Freq: 7.8
-    - _Line: 0.016
-    - _LineSmooth: 0.021
-    - _RimPower: 2.4
-    m_Colors:
-    - _FoamColor: {r: 0, g: 0.4862745, b: 1, a: 1}
-    - _RimColor: {r: 0.09803922, g: 0, b: 0.6792453, a: 1}
-    - _Tint: {r: 0, g: 0.4862745, b: 1, a: 1}
-    - _TopColor: {r: 0, g: 0.4862745, b: 1, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &883556531
 GameObject:
   m_ObjectHideFlags: 0
@@ -21709,52 +21770,6 @@ Transform:
   m_Father: {fileID: 1254408361}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &945450261
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Unlit_FX_Liquid (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance)
-  m_Shader: {fileID: 4800000, guid: 14b30f81224de4357a992dc4bc8475ad, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Amplitude: 0.15
-    - _Freq: 7.8
-    - _Line: 0
-    - _LineSmooth: 0
-    - _RimPower: 2.4
-    m_Colors:
-    - _FoamColor: {r: 0, g: 0.48640442, b: 1, a: 1}
-    - _RimColor: {r: 0.09727435, g: 0, b: 0.6792453, a: 1}
-    - _Tint: {r: 0.28627452, g: 0, b: 1, a: 1}
-    - _TopColor: {r: 0.28449106, g: 0, b: 1, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &946493778
 GameObject:
   m_ObjectHideFlags: 0
@@ -24810,7 +24825,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1970019428}
+  - {fileID: 1063267461}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25360,6 +25375,59 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4774725299234140, guid: ef4f91887a8b77a4e9c78a85ece61a7c, type: 3}
   m_PrefabInstance: {fileID: 1059296190}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1063267461
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Unlit_FX_Liquid (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+  m_Shader: {fileID: 4800000, guid: 14b30f81224de4357a992dc4bc8475ad, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Amplitude: 0.15
+    - _Freq: 7.8
+    - _Line: 0.016
+    - _LineSmooth: 0.021
+    - _RimPower: 2.4
+    m_Colors:
+    - _FoamColor: {r: 0, g: 0.4862745, b: 1, a: 1}
+    - _RimColor: {r: 0.09803922, g: 0, b: 0.6792453, a: 1}
+    - _Tint: {r: 0, g: 0.4862745, b: 1, a: 1}
+    - _TopColor: {r: 0, g: 0.4862745, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1001 &1065980236
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37046,9 +37114,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ea7a09ddd2f47078164e86479022a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  socketInteractor: {fileID: 1542870423}
-  socketLiquid: {fileID: 708562015}
-  grabbableLiquid: {fileID: 1585151147}
+  socketInteractor: {fileID: 0}
+  socketLiquid: {fileID: 0}
+  grabbableLiquid: {fileID: 0}
   transferRate: 0.2
   foamWidthIncreaseRate: 0.2
   foamSmoothIncreaseRate: 0.2
@@ -38118,9 +38186,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ea7a09ddd2f47078164e86479022a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  socketInteractor: {fileID: 1580908074}
+  socketInteractor: {fileID: 0}
   socketLiquid: {fileID: 0}
-  grabbableLiquid: {fileID: 1585151147}
+  grabbableLiquid: {fileID: 0}
   transferRate: 0.2
   foamWidthIncreaseRate: 0.2
   foamSmoothIncreaseRate: 0.2
@@ -38328,7 +38396,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 945450261}
+  - {fileID: 674083423}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -46612,52 +46680,6 @@ Transform:
   m_Father: {fileID: 810443129}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1970019428
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Unlit_FX_Liquid (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance)
-  m_Shader: {fileID: 4800000, guid: 14b30f81224de4357a992dc4bc8475ad, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Amplitude: 0.15
-    - _Freq: 7.8
-    - _Line: 0.016
-    - _LineSmooth: 0.021
-    - _RimPower: 2.4
-    m_Colors:
-    - _FoamColor: {r: 0, g: 0.4862745, b: 1, a: 1}
-    - _RimColor: {r: 0.09803922, g: 0, b: 0.6792453, a: 1}
-    - _Tint: {r: 0, g: 0.4862745, b: 1, a: 1}
-    - _TopColor: {r: 0, g: 0.4862745, b: 1, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &1974480635
 GameObject:
   m_ObjectHideFlags: 0

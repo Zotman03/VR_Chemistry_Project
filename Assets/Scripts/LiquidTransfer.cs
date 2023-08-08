@@ -5,9 +5,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class LiquidTransfer : MonoBehaviour
 {
-    public XRSocketInteractor socketInteractor;
-    public Liquid socketLiquid;
-    public Liquid grabbableLiquid;
+    XRSocketInteractor socketInteractor;
+    Liquid socketLiquid;
+    Liquid grabbableLiquid;
     [SerializeField, Range(0f, 1f)]
     public float transferRate = 0.2f;
     [SerializeField]
@@ -19,15 +19,40 @@ public class LiquidTransfer : MonoBehaviour
     public Material newMaterial;
     private bool canDuplicate = true;
 
-    private void Start()
+    private void Awake()
     {
-        grabbableLiquid.isSocketed = true;
+        socketInteractor = GetComponent<XRSocketInteractor>();
+        if (socketInteractor == null)
+            Debug.LogError("No XRSocketInteractor component found on this object");
+        else
+            // Subscribe to the onSelectEnter event
+            socketInteractor.selectEntered.AddListener(OnSelectEnter);
+    }
+
+    private void OnSelectEnter(SelectEnterEventArgs args)
+    {
+        // Get the interacting object
+        XRBaseInteractable baseInteractable = args.interactableObject as XRBaseInteractable;
+        if (baseInteractable == null)
+        {
+            Debug.Log("Interactable is not an XRBaseInteractable.");
+        }
+        GameObject interactingObject = baseInteractable.gameObject;
+        // Get the Liquid component from the child object
+        grabbableLiquid = interactingObject.GetComponentInChildren<Liquid>();
+        if (grabbableLiquid == null)
+            Debug.Log("No Liquid component found on children of interacting object");
+        // Get the Liquid component from the socket object
+        socketLiquid = GetComponentInChildren<Liquid>();
+        if (socketLiquid == null)
+            Debug.Log("No Liquid component found on children of current socket object");
     }
 
     void Update()
     {
-        if (socketInteractor.hasSelection)
+        if (grabbableLiquid && socketLiquid && socketInteractor.hasSelection)
         {
+            grabbableLiquid.isSocketed = true;
             float transferAmount = transferRate * Time.deltaTime;
 
             if (grabbableLiquid.fillAmount > 0f && (socketLiquid.fillAmount + transferAmount < 1f || socketLiquid.fillAmount + grabbableLiquid.fillAmount < 1f))
@@ -59,11 +84,11 @@ public class LiquidTransfer : MonoBehaviour
             }
             else
             {
-                grabbableLiquid.isSocketed = false;
                 if (canDuplicate == true && socketLiquid.fillAmount >= 0.99f)
                 {
                     DuplicateObject();
                     canDuplicate = false;
+                    grabbableLiquid.isSocketed = false;
                 }
             }
         }
@@ -94,6 +119,26 @@ public class LiquidTransfer : MonoBehaviour
         Renderer rend = duplicate.GetComponent<Renderer>();
         if (rend != null)
             rend.material = newMaterial;
+        // Start a coroutine to fade in the object
+        StartCoroutine(FadeIn(duplicate, 2.0f));  // 2 seconds to full visibility
+    }
+
+    IEnumerator FadeIn(GameObject obj, float duration)
+    {
+        Renderer renderer = obj.GetComponent<Renderer>();
+        if (renderer == null)
+            yield break;
+
+        Material mat = renderer.material;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float transparency = Mathf.Lerp(1, 0, elapsed / duration);
+            mat.SetFloat("_Alpha", 1 - transparency); // Alpha values from 0 for transparent and 1 for opaque
+            yield return null;
+        }
     }
 }
 

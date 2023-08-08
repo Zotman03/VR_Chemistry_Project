@@ -41,7 +41,6 @@ public class Liquid : MonoBehaviour
     Vector3 comp;
     public bool isSocketed = false;
 
-    // Use this for initialization
     void Start()
     {
         scaledFillAmount = .27f + (.73f - .25f) * (1 - fillAmount);
@@ -125,19 +124,19 @@ public class Liquid : MonoBehaviour
 
     void UpdatePos(float deltaTime)
     {
-        if (!isSocketed)
-        {
-            float rotationZ = lastRot.eulerAngles.z;
-            if (rotationZ > 180)
-                rotationZ -= 360;
+        //if (!isSocketed)
+        //{
+        //    float rotationZ = lastRot.eulerAngles.z;
+        //    if (rotationZ > 180)
+        //        rotationZ -= 360;
 
-            // Check if rotation exceeds 90 degrees in either direction
-            if (Mathf.Abs(rotationZ) > 90)
-            {
-                fillAmount = Mathf.Clamp(fillAmount - (.2f * Time.deltaTime), 0f, 1f);
-                scaledFillAmount = Mathf.Clamp(scaledFillAmount - fillAmount, 0f, 1f);
-            }
-        }
+        //    // Check if rotation exceeds 90 degrees in either direction
+        //    if (Mathf.Abs(rotationZ) > 90)
+        //    {
+        //        fillAmount = Mathf.Clamp(fillAmount - (.2f * Time.deltaTime), 0f, 1f);
+        //        scaledFillAmount = Mathf.Clamp(scaledFillAmount - fillAmount, 0f, 1f);
+        //    }
+        //}
 
         Vector3 worldPos = transform.TransformPoint(new Vector3(mesh.bounds.center.x, mesh.bounds.center.y, mesh.bounds.center.z));
 

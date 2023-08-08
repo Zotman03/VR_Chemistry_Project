@@ -43,6 +43,7 @@ Material:
     m_Floats:
     - Vector1_1AEEBAF1: 0.26
     - _AddPrecomputedVelocity: 0
+    - _Alpha: 0.5
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 1
     - _AlphaSrcBlend: 1
@@ -74,6 +75,7 @@ Material:
     - _StencilWriteMaskGBuffer: 14
     - _StencilWriteMaskMV: 42
     - _SurfaceType: 1
+    - _Transparency: 1
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
     - _TransparentDepthPostpassEnable: 0
