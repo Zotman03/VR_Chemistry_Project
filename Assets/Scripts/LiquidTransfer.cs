@@ -98,12 +98,22 @@ public class LiquidTransfer : MonoBehaviour
     {
         // Create a duplicate of the current object
         GameObject duplicate = Instantiate(gameObject, transform.position, transform.rotation);
-        // Set the parent of the duplicate to the original object's parent
-        duplicate.transform.parent = transform.parent;
+        // Make the duplicate a child of the original object
+        duplicate.transform.parent = gameObject.transform;
+        // Update duplicate's local position and rotation to match original
+        duplicate.transform.localPosition = Vector3.zero;
+        duplicate.transform.localRotation = Quaternion.identity;
         // Make the duplicate slightly larger
         duplicate.transform.localScale = transform.localScale * 1.05f;
         // Set the y value of the duplicate's position to be less than the original
         duplicate.transform.localPosition = new Vector3(duplicate.transform.localPosition.x, duplicate.transform.localPosition.y - 0.008f, duplicate.transform.localPosition.z);
+        // Remove gravity and set isKinematic to true
+        Rigidbody rb = duplicate.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.useGravity = false;
+            rb.isKinematic = true;
+        }
         // Remove the script from the duplicated object
         Destroy(duplicate.GetComponent<LiquidTransfer>());
         // Remove the XRSocketInteractor from the duplicate
