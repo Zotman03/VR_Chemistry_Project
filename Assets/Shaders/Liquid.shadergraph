@@ -3512,7 +3512,7 @@
     "m_DefaultRefNameVersion": 0,
     "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_86B367DE",
-    "m_OverrideReferenceName": "_FillAmount",
+    "m_OverrideReferenceName": "_FillAmt",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
     "m_CustomSlotLabel": "",

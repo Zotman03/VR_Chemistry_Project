@@ -1,19 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
- 
+
 [ExecuteInEditMode]
-public class Liquid: MonoBehaviour
+public class Liquid : MonoBehaviour
 {
     public enum UpdateMode { Normal, UnscaledTime }
     public UpdateMode updateMode;
- 
+    public Renderer liquidRenderer;
+
     [SerializeField]
     float MaxWobble = 0.03f;
     [SerializeField]
     float WobbleSpeedMove = 1f;
-    [SerializeField]
-    float fillAmount = 0f; //0.5f;
+    [SerializeField, Range(0f, 1f)]
+    public float fillAmount = 0.5f;
+    float scaledFillAmount;
     [SerializeField]
     float Recovery = 1f;
     [SerializeField]
@@ -37,22 +39,20 @@ public class Liquid: MonoBehaviour
     float sinewave;
     float time = 0.5f;
     Vector3 comp;
+    public bool isSocketed = false;
 
-    [SerializeField]
-    private string objBoundaryTag = "Object Boundary";
-    private bool isTouchingBoundary = false;
-
-    // Use this for initialization
     void Start()
     {
+        scaledFillAmount = .27f + (.73f - .25f) * (1 - fillAmount);
+        liquidRenderer = GetComponent<Renderer>();
         GetMeshAndRend();
     }
- 
+
     private void OnValidate()
     {
         GetMeshAndRend();
     }
- 
+
     void GetMeshAndRend()
     {
         if (mesh == null)
@@ -64,68 +64,82 @@ public class Liquid: MonoBehaviour
             rend = GetComponent<Renderer>();
         }
     }
+
     void Update()
     {
+        scaledFillAmount = .27f + (.73f - .25f) * (1 - fillAmount);
+
         float deltaTime = 0;
         switch (updateMode)
         {
             case UpdateMode.Normal:
                 deltaTime = Time.deltaTime;
                 break;
- 
+
             case UpdateMode.UnscaledTime:
                 deltaTime = Time.unscaledDeltaTime;
                 break;
         }
- 
+
         time += deltaTime;
- 
+
         if (deltaTime != 0)
         {
-            if (isTouchingBoundary)
-            {
-                fillAmount += 0.005f * deltaTime;
-                fillAmount = Mathf.Clamp(fillAmount, -1f, 1f);
-                rend.sharedMaterial.SetFloat("_FillAmount", fillAmount);
-            }
-
             // decrease wobble over time
             wobbleAmountToAddX = Mathf.Lerp(wobbleAmountToAddX, 0, (deltaTime * Recovery));
             wobbleAmountToAddZ = Mathf.Lerp(wobbleAmountToAddZ, 0, (deltaTime * Recovery));
- 
- 
+
+
+
             // make a sine wave of the decreasing wobble
             pulse = 2 * Mathf.PI * WobbleSpeedMove;
             sinewave = Mathf.Lerp(sinewave, Mathf.Sin(pulse * time), deltaTime * Mathf.Clamp(velocity.magnitude + angularVelocity.magnitude, Thickness, 10));
- 
+
             wobbleAmountX = wobbleAmountToAddX * sinewave;
             wobbleAmountZ = wobbleAmountToAddZ * sinewave;
- 
+
+
+
             // velocity
             velocity = (lastPos - transform.position) / deltaTime;
- 
+
             angularVelocity = GetAngularVelocity(lastRot, transform.rotation);
- 
+
             // add clamped velocity to wobble
             wobbleAmountToAddX += Mathf.Clamp((velocity.x + (velocity.y * 0.2f) + angularVelocity.z + angularVelocity.y) * MaxWobble, -MaxWobble, MaxWobble);
             wobbleAmountToAddZ += Mathf.Clamp((velocity.z + (velocity.y * 0.2f) + angularVelocity.x + angularVelocity.y) * MaxWobble, -MaxWobble, MaxWobble);
         }
- 
+
         // send it to the shader
-        rend.sharedMaterial.SetFloat("_WobbleX", wobbleAmountX);
-        rend.sharedMaterial.SetFloat("_WobbleZ", wobbleAmountZ);
- 
+        rend.material.SetFloat("_WobbleX", wobbleAmountX);
+        rend.material.SetFloat("_WobbleZ", wobbleAmountZ);
+
         // set fill amount
-        //UpdatePos(deltaTime);
- 
+        UpdatePos(deltaTime);
+
         // keep last position
         lastPos = transform.position;
         lastRot = transform.rotation;
     }
- 
+
     void UpdatePos(float deltaTime)
     {
+        //if (!isSocketed)
+        //{
+        //    float rotationZ = lastRot.eulerAngles.z;
+        //    if (rotationZ > 180)
+        //        rotationZ -= 360;
+
+        //    // Check if rotation exceeds 90 degrees in either direction
+        //    if (Mathf.Abs(rotationZ) > 90)
+        //    {
+        //        fillAmount = Mathf.Clamp(fillAmount - (.2f * Time.deltaTime), 0f, 1f);
+        //        scaledFillAmount = Mathf.Clamp(scaledFillAmount - fillAmount, 0f, 1f);
+        //    }
+        //}
+
         Vector3 worldPos = transform.TransformPoint(new Vector3(mesh.bounds.center.x, mesh.bounds.center.y, mesh.bounds.center.z));
+
         if (CompensateShapeAmount > 0)
         {
             // only lerp if not paused/normal update
@@ -138,13 +152,14 @@ public class Liquid: MonoBehaviour
                 comp = (worldPos - new Vector3(0, GetLowestPoint(), 0));
             }
 
-            pos = worldPos - transform.position - new Vector3(0, fillAmount - (comp.y * CompensateShapeAmount), 0);
+            pos = worldPos - transform.position - new Vector3(0, scaledFillAmount - (comp.y * CompensateShapeAmount), 0);
         }
         else
         {
-            pos = worldPos - transform.position - new Vector3(0, fillAmount, 0);
+            pos = worldPos - transform.position - new Vector3(0, scaledFillAmount, 0);
         }
-        rend.sharedMaterial.SetVector("_FillAmount", pos);
+
+        rend.material.SetVector("_FillAmount", pos);
     }
 
     //https://forum.unity.com/threads/manually-calculate-angular-velocity-of-gameobject.289462/#post-4302796
@@ -169,25 +184,25 @@ public class Liquid: MonoBehaviour
             gain = 2.0f * angle / (Mathf.Sin(angle) * Time.deltaTime);
         }
         Vector3 angularVelocity = new Vector3(q.x * gain, q.y * gain, q.z * gain);
- 
+
         if (float.IsNaN(angularVelocity.z))
         {
             angularVelocity = Vector3.zero;
         }
         return angularVelocity;
     }
- 
+
     float GetLowestPoint()
     {
         float lowestY = float.MaxValue;
         Vector3 lowestVert = Vector3.zero;
         Vector3[] vertices = mesh.vertices;
- 
+
         for (int i = 0; i < vertices.Length; i++)
         {
- 
+
             Vector3 position = transform.TransformPoint(vertices[i]);
- 
+
             if (position.y < lowestY)
             {
                 lowestY = position.y;
@@ -195,23 +210,5 @@ public class Liquid: MonoBehaviour
             }
         }
         return lowestVert.y;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("Object entered");
-        if (collision.gameObject.CompareTag(objBoundaryTag))
-        {
-            isTouchingBoundary = true;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        Debug.Log("Object exited");
-        if (collision.gameObject.CompareTag(objBoundaryTag))
-        {
-            isTouchingBoundary = false;
-        }
     }
 }
