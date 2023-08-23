@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Object Boundary
   - tag
+  - Non Liquid
+  - Stationary Object
   layers:
   - Default
   - TransparentFX
