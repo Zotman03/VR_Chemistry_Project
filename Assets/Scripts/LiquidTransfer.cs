@@ -19,6 +19,23 @@ public class LiquidTransfer : MonoBehaviour
     public Material newMaterial;
     private bool canDuplicate = true;
 
+    [SerializeField]
+    private Color nonLiquidColor;
+    [SerializeField]
+    private bool limitedNonLiquid = false;
+    [SerializeField, Range(0f, 1f)]
+    float nonLiquidAmount = float.NaN;
+
+    private GameObject grabbableObject;
+    private LiquidTransfer grabbableLiquidTransfer;
+    private bool grabbableLimitedNonLiquid;
+    private Color grabbableNonLiquidColor;
+    private float grabbableNonLiquidAmount;
+    private float grabbabletransferRate;
+
+    private bool isFirstInteractionInstance = true;
+    private GameObject duplicatedObject = null;
+
     private void Awake()
     {
         socketInteractor = GetComponent<XRSocketInteractor>();
@@ -37,74 +54,223 @@ public class LiquidTransfer : MonoBehaviour
         {
             Debug.Log("Interactable is not an XRBaseInteractable.");
         }
-        GameObject interactingObject = baseInteractable.gameObject;
+        grabbableObject = baseInteractable.gameObject;
         // Get the Liquid component from the child object
-        grabbableLiquid = interactingObject.GetComponentInChildren<Liquid>();
-        if (grabbableLiquid == null)
-            Debug.Log("No Liquid component found on children of interacting object");
+        grabbableLiquid = grabbableObject.GetComponentInChildren<Liquid>();
         // Get the Liquid component from the socket object
         socketLiquid = GetComponentInChildren<Liquid>();
+
+        if (grabbableLiquid == null)
+            Debug.Log("No Liquid component found on children of interacting object");
         if (socketLiquid == null)
             Debug.Log("No Liquid component found on children of current socket object");
     }
 
     void Update()
     {
-        if (grabbableLiquid && socketLiquid && socketInteractor.hasSelection)
-        {
-            grabbableLiquid.isSocketed = true;
-            float transferAmount = transferRate * Time.deltaTime;
+        CheckAndDestroyDuplicateIfNecessary();
 
-            if (grabbableLiquid.fillAmount > 0f && (socketLiquid.fillAmount + transferAmount < 1f || socketLiquid.fillAmount + grabbableLiquid.fillAmount < 1f))
+        if (grabbableLiquid && socketInteractor.hasSelection)
             {
-                if (grabbableLiquid.fillAmount > transferRate)
+                if (socketLiquid)
                 {
-                    socketLiquid.fillAmount = Mathf.Clamp(socketLiquid.fillAmount + transferAmount, 0f, 1f);
-                    grabbableLiquid.fillAmount = Mathf.Clamp(grabbableLiquid.fillAmount - transferAmount, 0f, 1f);
+                    grabbableLiquid.isSocketed = true;
+                    float transferAmount = transferRate * Time.deltaTime;
+
+                    if (grabbableLiquid.fillAmount > 0f && (socketLiquid.fillAmount + transferAmount < 1f || socketLiquid.fillAmount + grabbableLiquid.fillAmount < 1f))
+                    {
+                        if (grabbableLiquid.fillAmount > transferAmount)
+                        {
+                            socketLiquid.fillAmount = Mathf.Clamp(socketLiquid.fillAmount + transferAmount, 0f, 1f);
+                            grabbableLiquid.fillAmount = Mathf.Clamp(grabbableLiquid.fillAmount - transferAmount, 0f, 1f);
+                        }
+                        else
+                        {
+                            socketLiquid.fillAmount = Mathf.Clamp(socketLiquid.fillAmount + grabbableLiquid.fillAmount, 0f, 1f);
+                            grabbableLiquid.fillAmount = 0f;
+                            grabbableLiquid.isSocketed = false;
+                        }
+
+                        // Foam properties and color adjustments
+                        float socketLineWidth = socketLiquid.liquidRenderer.material.GetFloat("_Line");
+                        float socketLineSmooth = socketLiquid.liquidRenderer.material.GetFloat("_LineSmooth");
+
+                        float newSocketLineWidth = Mathf.Clamp(socketLineWidth + foamWidthIncreaseRate * Time.deltaTime, 0f, 1f);
+                        float newSocketLineSmooth = Mathf.Clamp(socketLineSmooth + foamSmoothIncreaseRate * Time.deltaTime, 0f, .1f);
+
+                        socketLiquid.liquidRenderer.material.SetFloat("_Line", newSocketLineWidth);
+                        socketLiquid.liquidRenderer.material.SetFloat("_LineSmooth", newSocketLineSmooth);
+
+                        if (isFirstInteractionInstance)
+                        {
+                            Color socketTopColor = socketLiquid.liquidRenderer.material.GetColor("_FoamColor");
+                            socketLiquid.liquidRenderer.material.SetColor("_TopColor", socketTopColor);
+                            isFirstInteractionInstance = false;
+                        }
+
+                        Color grabTopColor = grabbableLiquid.liquidRenderer.material.GetColor("_TopColor");
+                        socketLiquid.liquidRenderer.material.SetColor("_FoamColor", grabTopColor);
+                    }
+                    else
+                    {
+                        if (canDuplicate == true && socketLiquid.fillAmount >= 0.99f)
+                        {
+                            DuplicateObject();
+                            canDuplicate = false;
+                            grabbableLiquid.isSocketed = false;
+                        }
+                    }
                 }
                 else
                 {
-                    socketLiquid.fillAmount = Mathf.Clamp(socketLiquid.fillAmount + grabbableLiquid.fillAmount, 0f, 1f);
-                    grabbableLiquid.fillAmount = 0f;
-                    grabbableLiquid.isSocketed = false;
+                    grabbableLiquid.isSocketed = true;
+                    float transferAmount = transferRate * Time.deltaTime;
+
+                    if ((!limitedNonLiquid || nonLiquidAmount > 0f) && (grabbableLiquid.fillAmount + transferAmount < 1f || grabbableLiquid.fillAmount + nonLiquidAmount < 1f))
+                    {
+                        if (!limitedNonLiquid)
+                            grabbableLiquid.fillAmount = Mathf.Clamp(grabbableLiquid.fillAmount + transferAmount, 0f, 1f);
+                        else
+                        {
+                            if (nonLiquidAmount > transferAmount)
+                            {
+                                grabbableLiquid.fillAmount = Mathf.Clamp(grabbableLiquid.fillAmount + transferAmount, 0f, 1f);
+                                nonLiquidAmount = nonLiquidAmount - transferAmount;
+                            }
+                            else
+                            {
+                                grabbableLiquid.fillAmount = Mathf.Clamp(grabbableLiquid.fillAmount + nonLiquidAmount, 0f, 1f);
+                                nonLiquidAmount = 0f;
+
+                                foreach (Transform child in gameObject.transform)
+                                {
+                                    if (child.CompareTag("Non Liquid"))
+                                        Destroy(child.gameObject);
+                                }
+                            }
+                        }
+
+                        // Foam properties and color adjustments
+                        float grabbableLineWidth = grabbableLiquid.liquidRenderer.material.GetFloat("_Line");
+                        float grabbableLineSmooth = grabbableLiquid.liquidRenderer.material.GetFloat("_LineSmooth");
+
+                        float newGrabbableLineWidth = Mathf.Clamp(grabbableLineWidth + foamWidthIncreaseRate * Time.deltaTime, 0f, 1f);
+                        float newGrabbableLineSmooth = Mathf.Clamp(grabbableLineSmooth + foamSmoothIncreaseRate * Time.deltaTime, 0f, .1f);
+
+                        grabbableLiquid.liquidRenderer.material.SetFloat("_Line", newGrabbableLineWidth);
+                        grabbableLiquid.liquidRenderer.material.SetFloat("_LineSmooth", newGrabbableLineSmooth);
+
+                        if (isFirstInteractionInstance)
+                        {
+                            Color grabbableTopColor = grabbableLiquid.liquidRenderer.material.GetColor("_FoamColor");
+                            grabbableLiquid.liquidRenderer.material.SetColor("_TopColor", grabbableTopColor);
+                            isFirstInteractionInstance = false;
+                        }
+                        grabbableLiquid.liquidRenderer.material.SetColor("_FoamColor", nonLiquidColor);
+                    }
+                    else
+                    {
+                        if (canDuplicate == true && grabbableLiquid.fillAmount >= 0.99f)
+                        {
+                            DuplicateObject(grabbableLiquid.transform.parent.gameObject);
+                            canDuplicate = false;
+                            grabbableLiquid.isSocketed = false;
+                        }
+                    }
                 }
-
-                // Foam properties and color adjustments
-                float socketLineWidth = socketLiquid.liquidRenderer.material.GetFloat("_Line");
-                float socketLineSmooth = socketLiquid.liquidRenderer.material.GetFloat("_LineSmooth");
-
-                socketLineWidth += foamWidthIncreaseRate * Time.deltaTime;
-                socketLineSmooth += foamSmoothIncreaseRate * Time.deltaTime;
-
-                socketLiquid.liquidRenderer.material.SetFloat("_LineWidth", socketLineWidth);
-                socketLiquid.liquidRenderer.material.SetFloat("_LineSmooth", socketLineSmooth);
-
-                Color grabTopColor = grabbableLiquid.liquidRenderer.material.GetColor("_TopColor");
-                socketLiquid.liquidRenderer.material.SetColor("_FoamColor", grabTopColor);
             }
-            else
+            else if (socketLiquid && socketInteractor.hasSelection)
             {
-                if (canDuplicate == true && socketLiquid.fillAmount >= 0.99f)
+                grabbableLiquidTransfer = grabbableObject.GetComponent<LiquidTransfer>();
+
+                grabbableLimitedNonLiquid = grabbableLiquidTransfer.limitedNonLiquid;
+                grabbableNonLiquidColor = grabbableLiquidTransfer.nonLiquidColor;
+                grabbableNonLiquidAmount = grabbableLiquidTransfer.nonLiquidAmount;
+                grabbabletransferRate = grabbableLiquidTransfer.transferRate;
+
+                socketLiquid.isSocketed = true;
+                float transferAmount = grabbabletransferRate * Time.deltaTime;
+
+                if ((!grabbableLimitedNonLiquid || grabbableNonLiquidAmount > 0f) && (socketLiquid.fillAmount + transferAmount < 1f || socketLiquid.fillAmount + grabbableNonLiquidAmount < 1f))
                 {
-                    DuplicateObject();
-                    canDuplicate = false;
-                    grabbableLiquid.isSocketed = false;
+                    if (!grabbableLimitedNonLiquid)
+                        socketLiquid.fillAmount = Mathf.Clamp(socketLiquid.fillAmount + transferAmount, 0f, 1f);
+                    else
+                    {
+                        if (grabbableNonLiquidAmount > transferAmount)
+                        {
+                            socketLiquid.fillAmount = Mathf.Clamp(socketLiquid.fillAmount + transferAmount, 0f, 1f);
+                            grabbableNonLiquidAmount = grabbableNonLiquidAmount - transferAmount;
+                            grabbableLiquidTransfer.nonLiquidAmount = grabbableNonLiquidAmount;
+                        }
+                        else
+                        {
+                            socketLiquid.fillAmount = Mathf.Clamp(socketLiquid.fillAmount + grabbableNonLiquidAmount, 0f, 1f);
+                            grabbableNonLiquidAmount = 0f;
+                            grabbableLiquidTransfer.nonLiquidAmount = 0f;
+
+                            foreach (Transform child in grabbableObject.transform)
+                            {
+                                if (child.CompareTag("Non Liquid"))
+                                    Destroy(child.gameObject);
+                            }
+                        }
+                    }
+
+                    // Foam properties and color adjustments
+                    float socketLineWidth = socketLiquid.liquidRenderer.material.GetFloat("_Line");
+                    float socketLineSmooth = socketLiquid.liquidRenderer.material.GetFloat("_LineSmooth");
+
+                    float newSocketLineWidth = Mathf.Clamp(socketLineWidth + foamWidthIncreaseRate * Time.deltaTime, 0f, 1f);
+                    float newSocketLineSmooth = Mathf.Clamp(socketLineSmooth + foamSmoothIncreaseRate * Time.deltaTime, 0f, .1f);
+
+                    socketLiquid.liquidRenderer.material.SetFloat("_Line", newSocketLineWidth);
+                    socketLiquid.liquidRenderer.material.SetFloat("_LineSmooth", newSocketLineSmooth);
+
+                    if (isFirstInteractionInstance)
+                    {
+                        Color socketTopColor = socketLiquid.liquidRenderer.material.GetColor("_FoamColor");
+                        socketLiquid.liquidRenderer.material.SetColor("_TopColor", socketTopColor);
+                        isFirstInteractionInstance = false;
+                    }
+
+                    socketLiquid.liquidRenderer.material.SetColor("_FoamColor", grabbableNonLiquidColor);
+                }
+                else
+                {
+                    if (canDuplicate == true && socketLiquid.fillAmount >= 0.99f)
+                    {
+                        DuplicateObject(socketLiquid.transform.parent.gameObject);
+                        canDuplicate = false;
+                        socketLiquid.isSocketed = false;
+                    }
                 }
             }
-        }
     }
 
-    void DuplicateObject()
+    void DuplicateObject(GameObject gameObjectDupl = null)
     {
-        // Create a duplicate of the current object
-        GameObject duplicate = Instantiate(gameObject, transform.position, transform.rotation);
-        // Make the duplicate a child of the original object
-        duplicate.transform.parent = gameObject.transform;
+        GameObject duplicate;
+        if (gameObjectDupl == null)
+        {
+            // Create a duplicate of the current object
+            duplicate = Instantiate(gameObject, transform.position, transform.rotation);
+            // Make the duplicate a child of the original object
+            duplicate.transform.parent = gameObject.transform;
+
+            // Make the duplicate slightly larger
+            duplicate.transform.localScale = transform.localScale * 1.05f;
+        }
+        else
+        {
+            duplicate = Instantiate(gameObjectDupl, transform.position, transform.rotation);
+            duplicate.transform.parent = gameObjectDupl.transform;
+            duplicate.transform.localScale = Vector3.one * 1.05f;
+
+        }
         // Update duplicate's local position and rotation to match original
         duplicate.transform.localPosition = Vector3.zero;
         duplicate.transform.localRotation = Quaternion.identity;
-        // Make the duplicate slightly larger
-        duplicate.transform.localScale = transform.localScale * 1.05f;
         // Set the y value of the duplicate's position to be less than the original
         duplicate.transform.localPosition = new Vector3(duplicate.transform.localPosition.x, duplicate.transform.localPosition.y - 0.008f, duplicate.transform.localPosition.z);
         // Remove gravity and set isKinematic to true
@@ -116,10 +282,12 @@ public class LiquidTransfer : MonoBehaviour
         }
         // Remove the script from the duplicated object
         Destroy(duplicate.GetComponent<LiquidTransfer>());
+
         // Remove the XRSocketInteractor from the duplicate
         XRSocketInteractor socketInteractor = duplicate.GetComponent<XRSocketInteractor>();
         if (socketInteractor != null)
             Destroy(socketInteractor);
+
         // Delete all children from the duplicate
         foreach (Transform child in duplicate.transform)
         {
@@ -131,6 +299,7 @@ public class LiquidTransfer : MonoBehaviour
             rend.material = newMaterial;
         // Start a coroutine to fade in the object
         StartCoroutine(FadeIn(duplicate, 2.0f));  // 2 seconds to full visibility
+        duplicatedObject = duplicate;
     }
 
     IEnumerator FadeIn(GameObject obj, float duration)
@@ -148,6 +317,19 @@ public class LiquidTransfer : MonoBehaviour
             float transparency = Mathf.Lerp(1, 0, elapsed / duration);
             mat.SetFloat("_Alpha", 1 - transparency); // Alpha values from 0 for transparent and 1 for opaque
             yield return null;
+        }
+    }
+
+    void CheckAndDestroyDuplicateIfNecessary()
+    {
+        if (duplicatedObject != null)
+        {
+            Liquid duplicateLiquid = gameObject.GetComponentInChildren<Liquid>();
+            if (duplicateLiquid != null && duplicateLiquid.fillAmount < 0.98f)
+            {
+                Destroy(duplicatedObject);
+                duplicatedObject = null;
+            }
         }
     }
 }

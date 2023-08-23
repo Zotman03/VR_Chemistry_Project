@@ -90,7 +90,6 @@ public class Liquid : MonoBehaviour
             wobbleAmountToAddZ = Mathf.Lerp(wobbleAmountToAddZ, 0, (deltaTime * Recovery));
 
 
-
             // make a sine wave of the decreasing wobble
             pulse = 2 * Mathf.PI * WobbleSpeedMove;
             sinewave = Mathf.Lerp(sinewave, Mathf.Sin(pulse * time), deltaTime * Mathf.Clamp(velocity.magnitude + angularVelocity.magnitude, Thickness, 10));
@@ -124,20 +123,6 @@ public class Liquid : MonoBehaviour
 
     void UpdatePos(float deltaTime)
     {
-        //if (!isSocketed)
-        //{
-        //    float rotationZ = lastRot.eulerAngles.z;
-        //    if (rotationZ > 180)
-        //        rotationZ -= 360;
-
-        //    // Check if rotation exceeds 90 degrees in either direction
-        //    if (Mathf.Abs(rotationZ) > 90)
-        //    {
-        //        fillAmount = Mathf.Clamp(fillAmount - (.2f * Time.deltaTime), 0f, 1f);
-        //        scaledFillAmount = Mathf.Clamp(scaledFillAmount - fillAmount, 0f, 1f);
-        //    }
-        //}
-
         Vector3 worldPos = transform.TransformPoint(new Vector3(mesh.bounds.center.x, mesh.bounds.center.y, mesh.bounds.center.z));
 
         if (CompensateShapeAmount > 0)
@@ -166,9 +151,6 @@ public class Liquid : MonoBehaviour
     Vector3 GetAngularVelocity(Quaternion foreLastFrameRotation, Quaternion lastFrameRotation)
     {
         var q = lastFrameRotation * Quaternion.Inverse(foreLastFrameRotation);
-        // no rotation?
-        // You may want to increase this closer to 1 if you want to handle very small rotations.
-        // Beware, if it is too close to one your answer will be Nan
         if (Mathf.Abs(q.w) > 1023.5f / 1024.0f)
             return Vector3.zero;
         float gain;

@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Test_Laboratory.unity
     guid: 9353ff5bda2eb475dafd98c1b74bd2eb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/DavidJumpFrom.unity
     guid: b872f1c15e7574daa96263e13d52ce3a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/DavidJumpTo.unity
     guid: f23d90e2d025c496da83c45adaacb032
   m_configObjects:
