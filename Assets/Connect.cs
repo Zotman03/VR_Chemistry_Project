@@ -5,11 +5,16 @@ using UnityEngine;
 public class Connect : MonoBehaviour
 {
     private bool isBonded = false;
+    int connect = 0;
 
     void OnCollisionEnter(Collision collision)
     {
         Connect otherSphere = collision.gameObject.GetComponent<Connect>();
-        if (otherSphere && !otherSphere.isBonded && !isBonded)
+        connect++;
+        if(connect == 3){
+            
+        }
+        else if (otherSphere && !otherSphere.isBonded && !isBonded)
         {
             Bond(collision.gameObject);
             otherSphere.Bonded();
