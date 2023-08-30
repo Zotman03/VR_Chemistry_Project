@@ -41,8 +41,15 @@ public class Liquid : MonoBehaviour
     Vector3 comp;
     public bool isSocketed = false;
 
+    public string topSubstance = "";
+    public string foamSubstance = "";
+
+    public float topSubstanceAmount = 0f;
+    public float foamSubstanceAmount = 0f;
+
     void Start()
     {
+        foamSubstanceAmount = fillAmount;
         scaledFillAmount = .27f + (.73f - .25f) * (1 - fillAmount);
         liquidRenderer = GetComponent<Renderer>();
         GetMeshAndRend();
