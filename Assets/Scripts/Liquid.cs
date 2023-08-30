@@ -117,8 +117,8 @@ public class Liquid : MonoBehaviour
         }
 
         // send it to the shader
-        rend.material.SetFloat("_WobbleX", wobbleAmountX);
-        rend.material.SetFloat("_WobbleZ", wobbleAmountZ);
+        rend.sharedMaterial.SetFloat("_WobbleX", wobbleAmountX);
+        rend.sharedMaterial.SetFloat("_WobbleZ", wobbleAmountZ);
 
         // set fill amount
         UpdatePos(deltaTime);
@@ -151,7 +151,7 @@ public class Liquid : MonoBehaviour
             pos = worldPos - transform.position - new Vector3(0, scaledFillAmount, 0);
         }
 
-        rend.material.SetVector("_FillAmount", pos);
+        rend.sharedMaterial.SetVector("_FillAmount", pos);
     }
 
     //https://forum.unity.com/threads/manually-calculate-angular-velocity-of-gameobject.289462/#post-4302796
