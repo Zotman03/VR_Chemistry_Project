@@ -10,6 +10,7 @@ public class NAConnect : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if(isAlreadyConnected){
+            RepelObject(collision);
             return;
         }
 
@@ -34,6 +35,17 @@ public class NAConnect : MonoBehaviour
         if(joint){
             Destroy(joint);
             isAlreadyConnected = false;  // Reset the connection status
+        }
+    }
+
+    void RepelObject(Collision collision){
+        Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
+        Rigidbody thisRb = this.gameObject.GetComponent<Rigidbody>();
+
+        if(rb && thisRb){
+            Vector3 repulsionDir = collision.transform.position - transform.position;
+            float force = 10.0f;
+            rb.AddForce(repulsionDir.normalized * force, ForceMode.Impulse);
         }
     }
 }
