@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Connect : MonoBehaviour{
-    public bool isAlreadyConnected = false;  // Flag to track whether this object is already connected
+public class NAConnect : MonoBehaviour
+{
     int connect = 0;
+    public bool isAlreadyConnected = false;  // Flag to track whether this object is already connected
 
-    void OnCollisionEnter(Collision collision){
+    void OnCollisionEnter(Collision collision)
+    {
         if(isAlreadyConnected){
             return;
         }
@@ -19,11 +21,6 @@ public class Connect : MonoBehaviour{
             otherSphere.Bonded();
             isAlreadyConnected = true;
         }
-        else if(naSphere && !naSphere.isAlreadyConnected){
-            Bond(collision.gameObject);
-            naSphere.isAlreadyConnected = true;
-            isAlreadyConnected = true;
-        }
     }
 
     void Bond(GameObject other){
@@ -31,11 +28,7 @@ public class Connect : MonoBehaviour{
         joint.connectedBody = other.GetComponent<Rigidbody>();
         connect++;
     }
-
-    public void Bonded(){
-        isAlreadyConnected = true;
-    }
-
+    
     public void BreakBond(){
         FixedJoint joint = GetComponent<FixedJoint>();
         if(joint){
