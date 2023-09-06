@@ -49,7 +49,7 @@ public class LiquidTransfer : MonoBehaviour
     private float fillAmountOfSubstanceTwo;
     private float fillAmountOfSubstanceResult;
 
-    private void Awake()
+    private void Start()
     {
         socketInteractor = GetComponent<XRSocketInteractor>();
         if (socketInteractor == null)
@@ -98,7 +98,7 @@ public class LiquidTransfer : MonoBehaviour
                     grabbableLiquid.isSocketed = true;
                     float transferAmount = transferRate * Time.deltaTime;
 
-                    if (grabbableLiquid.fillAmount > 0f && (socketLiquid.fillAmount + transferAmount < 1f || socketLiquid.fillAmount + grabbableLiquid.fillAmount < 1f) &&
+                    if (grabbableLiquid.fillAmount > 0f && (grabbableLiquid.foamSubstanceAmount > 0f || grabbableLiquid.topSubstanceAmount > 0f) && (socketLiquid.fillAmount + transferAmount < 1f || socketLiquid.fillAmount + grabbableLiquid.fillAmount < 1f) &&
                     !canReact)
                     {
                         if (grabbableLiquid.fillAmount > transferAmount)
@@ -125,20 +125,29 @@ public class LiquidTransfer : MonoBehaviour
                         socketLiquid.liquidRenderer.material.SetFloat("_Line", newSocketLineWidth);
                         socketLiquid.liquidRenderer.material.SetFloat("_LineSmooth", newSocketLineSmooth);
 
+                        Color grabTopColor = grabbableLiquid.liquidRenderer.material.GetColor("_TopColor");
+
                         if (isFirstInteractionInstance)
                         {
                             Color socketTopColor = socketLiquid.liquidRenderer.material.GetColor("_FoamColor");
                             socketLiquid.liquidRenderer.material.SetColor("_TopColor", socketTopColor);
+                            if (socketLiquid.foamSubstance != "")
+                                socketLiquid.liquidRenderer.material.SetColor("_TopColor", socketTopColor);
+                            else
+                                socketLiquid.liquidRenderer.material.SetColor("_TopColor", grabTopColor);
                             socketLiquid.topSubstanceAmount = socketLiquid.foamSubstanceAmount;
                             socketLiquid.foamSubstanceAmount = 0f;
                             socketLiquid.topSubstance = socketLiquid.foamSubstance;
                             isFirstInteractionInstance = false;
                         }
 
-                        Color grabTopColor = grabbableLiquid.liquidRenderer.material.GetColor("_TopColor");
                         socketLiquid.liquidRenderer.material.SetColor("_FoamColor", grabTopColor);
                         socketLiquid.foamSubstanceAmount += liquidChangeAmount;
                         socketLiquid.foamSubstance = grabbableLiquid.topSubstance;
+                        if (grabbableLiquid.topSubstanceAmount > 0f && (grabbableLiquid.topSubstanceAmount - liquidChangeAmount) > 0f)
+                            grabbableLiquid.topSubstanceAmount -= liquidChangeAmount;
+                        else if (grabbableLiquid.foamSubstanceAmount > 0f && (grabbableLiquid.foamSubstanceAmount - liquidChangeAmount) > 0f)
+                            grabbableLiquid.foamSubstanceAmount -= liquidChangeAmount;
 
                         if ((socketLiquid.topSubstanceAmount >= fillAmountOfSubstanceOne && socketLiquid.foamSubstanceAmount >= fillAmountOfSubstanceTwo) ||
                         (socketLiquid.topSubstanceAmount >= fillAmountOfSubstanceTwo && socketLiquid.foamSubstanceAmount >= fillAmountOfSubstanceOne))
@@ -150,7 +159,7 @@ public class LiquidTransfer : MonoBehaviour
                         ((socketLiquid.topSubstanceAmount >= fillAmountOfSubstanceOne && socketLiquid.foamSubstanceAmount >= fillAmountOfSubstanceTwo) ||
                         (socketLiquid.topSubstanceAmount >= fillAmountOfSubstanceTwo && socketLiquid.foamSubstanceAmount >= fillAmountOfSubstanceOne)))
                         {
-                            DuplicateObject();
+                            DuplicateObject(socketLiquid.transform.parent.gameObject);
                             canDuplicate = false;
                             grabbableLiquid.isSocketed = false;
                         }
@@ -203,7 +212,10 @@ public class LiquidTransfer : MonoBehaviour
                         if (isFirstInteractionInstance)
                         {
                             Color grabbableTopColor = grabbableLiquid.liquidRenderer.material.GetColor("_FoamColor");
-                            grabbableLiquid.liquidRenderer.material.SetColor("_TopColor", grabbableTopColor);
+                            if (grabbableLiquid.foamSubstance != "")
+                                grabbableLiquid.liquidRenderer.material.SetColor("_TopColor", grabbableTopColor);
+                            else
+                                grabbableLiquid.liquidRenderer.material.SetColor("_TopColor", nonLiquidColor);
                             grabbableLiquid.topSubstanceAmount = grabbableLiquid.foamSubstanceAmount;
                             grabbableLiquid.foamSubstanceAmount = 0f;
                             grabbableLiquid.topSubstance = grabbableLiquid.foamSubstance;
@@ -286,6 +298,12 @@ public class LiquidTransfer : MonoBehaviour
                     {
                         Color socketTopColor = socketLiquid.liquidRenderer.material.GetColor("_FoamColor");
                         socketLiquid.liquidRenderer.material.SetColor("_TopColor", socketTopColor);
+                        if (socketLiquid.foamSubstance == "")
+                            socketLiquid.liquidRenderer.material.SetColor("_FoamColor", socketTopColor);
+                        if (socketLiquid.foamSubstance != "")
+                            socketLiquid.liquidRenderer.material.SetColor("_TopColor", socketTopColor);
+                        else
+                            socketLiquid.liquidRenderer.material.SetColor("_TopColor", grabbableNonLiquidColor);
                         socketLiquid.topSubstanceAmount = socketLiquid.foamSubstanceAmount;
                         socketLiquid.foamSubstanceAmount = 0f;
                         socketLiquid.topSubstance = socketLiquid.foamSubstance;
@@ -390,7 +408,7 @@ public class LiquidTransfer : MonoBehaviour
     {
         if (duplicatedObject != null)
         {
-            Liquid duplicateLiquid = gameObject.GetComponentInChildren<Liquid>();
+            Liquid duplicateLiquid = gameObject.GetComponentInChildren<Liquid>(true);
             if (duplicateLiquid != null &&
                 !((duplicateLiquid.topSubstanceAmount >= fillAmountOfSubstanceOne && duplicateLiquid.foamSubstanceAmount >= fillAmountOfSubstanceTwo) ||
                 (duplicateLiquid.topSubstanceAmount >= fillAmountOfSubstanceTwo && duplicateLiquid.foamSubstanceAmount >= fillAmountOfSubstanceOne)))
