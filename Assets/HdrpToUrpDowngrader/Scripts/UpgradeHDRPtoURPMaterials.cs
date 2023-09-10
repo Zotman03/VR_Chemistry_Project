@@ -56,13 +56,18 @@ namespace HdrpTOUrpDowngrader
             return upgraders;
         }
 
+
+#pragma warning disable CS0618 // Type or member is obsolete
         [MenuItem("Edit/Render Pipeline/Downgrade All HDRP Materials to URP Materials", priority = CoreUtils.editMenuPriority2)]
+#pragma warning restore CS0618 // Type or member is obsolete
         internal static void UpgradeMaterialsProject()
         {
             MaterialUpgrader.UpgradeProjectFolder(GetHDtoURPUpgraders(), "Downgrading Now. Please Wait...");
         }
 
+#pragma warning disable CS0618 // Type or member is obsolete
         [MenuItem("Edit/Render Pipeline/Downgrade Selected HDRP Materials to URP Materials", priority = CoreUtils.editMenuPriority2)]
+#pragma warning restore CS0618 // Type or member is obsolete
         internal static void UpgradeMaterialsSelection()
         {
             MaterialUpgrader.UpgradeSelection(GetHDtoURPUpgraders(), "Downgrading Now. Please Wait...");

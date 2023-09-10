@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.SceneManagement;
 
 public class LiquidTransfer : MonoBehaviour
 {
@@ -52,19 +53,19 @@ public class LiquidTransfer : MonoBehaviour
     private void Start()
     {
         socketInteractor = GetComponent<XRSocketInteractor>();
-        if (socketInteractor == null)
-            Debug.LogError("No XRSocketInteractor component found on this object");
-        else
+        if (socketInteractor != null)
             // Subscribe to the onSelectEnter event
             socketInteractor.selectEntered.AddListener(OnSelectEnter);
+        else
+            Debug.LogError("No XRSocketInteractor component found on this object");
 
-        substanceOne = GlobalChemistryData.Instance.substanceOne;
-        substanceTwo = GlobalChemistryData.Instance.substanceTwo;
-        substanceResult = GlobalChemistryData.Instance.substanceResult;
+        substanceOne = GlobalChemistryData.instance.substanceOne;
+        substanceTwo = GlobalChemistryData.instance.substanceTwo;
+        substanceResult = GlobalChemistryData.instance.substanceResult;
 
-        fillAmountOfSubstanceOne = .1f * GlobalChemistryData.Instance.molesOfSubstanceOne;
-        fillAmountOfSubstanceTwo = .1f * GlobalChemistryData.Instance.molesOfSubstanceTwo;
-        fillAmountOfSubstanceResult = .1f * GlobalChemistryData.Instance.molesOfSubstanceResult;
+        fillAmountOfSubstanceOne = .1f * GlobalChemistryData.instance.molesOfSubstanceOne;
+        fillAmountOfSubstanceTwo = .1f * GlobalChemistryData.instance.molesOfSubstanceTwo;
+        fillAmountOfSubstanceResult = .1f * GlobalChemistryData.instance.molesOfSubstanceResult;
     }
 
     private void OnSelectEnter(SelectEnterEventArgs args)
@@ -72,9 +73,8 @@ public class LiquidTransfer : MonoBehaviour
         // Get the interacting object
         XRBaseInteractable baseInteractable = args.interactableObject as XRBaseInteractable;
         if (baseInteractable == null)
-        {
             Debug.Log("Interactable is not an XRBaseInteractable.");
-        }
+
         grabbableObject = baseInteractable.gameObject;
         // Get the Liquid component from the child object
         grabbableLiquid = grabbableObject.GetComponentInChildren<Liquid>();
@@ -159,7 +159,12 @@ public class LiquidTransfer : MonoBehaviour
                         ((socketLiquid.topSubstanceAmount >= fillAmountOfSubstanceOne && socketLiquid.foamSubstanceAmount >= fillAmountOfSubstanceTwo) ||
                         (socketLiquid.topSubstanceAmount >= fillAmountOfSubstanceTwo && socketLiquid.foamSubstanceAmount >= fillAmountOfSubstanceOne)))
                         {
-                            DuplicateObject(socketLiquid.transform.parent.gameObject);
+                            GlobalChemistryData.instance.mixedChemicalOne = socketLiquid.topSubstance;
+                            GlobalChemistryData.instance.mixedChemicalTwo = socketLiquid.foamSubstance;
+                            GlobalChemistryData.instance.mixedChemicalOneAmount = socketLiquid.topSubstanceAmount;
+                            GlobalChemistryData.instance.mixedChemicalTwoAmount = socketLiquid.foamSubstanceAmount;
+
+                            DuplicateObject(this.gameObject);
                             canDuplicate = false;
                             grabbableLiquid.isSocketed = false;
                         }
@@ -235,7 +240,12 @@ public class LiquidTransfer : MonoBehaviour
                         ((grabbableLiquid.topSubstanceAmount >= fillAmountOfSubstanceOne && grabbableLiquid.foamSubstanceAmount >= fillAmountOfSubstanceTwo) ||
                         (grabbableLiquid.topSubstanceAmount >= fillAmountOfSubstanceTwo && grabbableLiquid.foamSubstanceAmount >= fillAmountOfSubstanceOne)))
                         {
-                        DuplicateObject(grabbableLiquid.transform.parent.gameObject);
+                            GlobalChemistryData.instance.mixedChemicalOne = grabbableLiquid.topSubstance;
+                            GlobalChemistryData.instance.mixedChemicalTwo = grabbableLiquid.foamSubstance;
+                            GlobalChemistryData.instance.mixedChemicalOneAmount = grabbableLiquid.topSubstanceAmount;
+                            GlobalChemistryData.instance.mixedChemicalTwoAmount = grabbableLiquid.foamSubstanceAmount;
+
+                            DuplicateObject(grabbableObject);
                             canDuplicate = false;
                             grabbableLiquid.isSocketed = false;
                         }
@@ -324,7 +334,12 @@ public class LiquidTransfer : MonoBehaviour
                     ((socketLiquid.topSubstanceAmount >= fillAmountOfSubstanceOne && socketLiquid.foamSubstanceAmount >= fillAmountOfSubstanceTwo) ||
                     (socketLiquid.topSubstanceAmount >= fillAmountOfSubstanceTwo && socketLiquid.foamSubstanceAmount >= fillAmountOfSubstanceOne)))
                     {
-                    DuplicateObject(socketLiquid.transform.parent.gameObject);
+                        GlobalChemistryData.instance.mixedChemicalOne = socketLiquid.topSubstance;
+                        GlobalChemistryData.instance.mixedChemicalTwo = socketLiquid.foamSubstance;
+                        GlobalChemistryData.instance.mixedChemicalOneAmount = socketLiquid.topSubstanceAmount;
+                        GlobalChemistryData.instance.mixedChemicalTwoAmount = socketLiquid.foamSubstanceAmount;
+
+                        DuplicateObject(this.gameObject);
                         canDuplicate = false;
                         socketLiquid.isSocketed = false;
                     }
@@ -350,8 +365,8 @@ public class LiquidTransfer : MonoBehaviour
             duplicate = Instantiate(gameObjectDupl, transform.position, transform.rotation);
             duplicate.transform.parent = gameObjectDupl.transform;
             duplicate.transform.localScale = Vector3.one * 1.05f;
-
         }
+        duplicatedObject = duplicate;
         // Update duplicate's local position and rotation to match original
         duplicate.transform.localPosition = Vector3.zero;
         duplicate.transform.localRotation = Quaternion.identity;
@@ -383,14 +398,16 @@ public class LiquidTransfer : MonoBehaviour
             rend.material = newMaterial;
         // Start a coroutine to fade in the object
         StartCoroutine(FadeIn(duplicate, 2.0f));  // 2 seconds to full visibility
-        duplicatedObject = duplicate;
     }
 
     IEnumerator FadeIn(GameObject obj, float duration)
     {
         Renderer renderer = obj.GetComponent<Renderer>();
         if (renderer == null)
+        {
+            NextScene();
             yield break;
+        }
 
         Material mat = renderer.material;
         float elapsed = 0f;
@@ -402,6 +419,13 @@ public class LiquidTransfer : MonoBehaviour
             mat.SetFloat("_Alpha", 1 - transparency); // Alpha values from 0 for transparent and 1 for opaque
             yield return null;
         }
+
+        NextScene();
+    }
+
+    public void NextScene()
+    {
+        SceneManager.LoadSceneAsync("TestSharon");
     }
 
     void CheckAndDestroyDuplicateIfNecessary()
