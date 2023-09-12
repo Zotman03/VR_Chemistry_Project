@@ -89,7 +89,8 @@ public class SocketActivityControl : MonoBehaviour
 
     bool IsSocketTriggered(XRSocketInteractor socket, System.Action<bool> callback)
     {
-        StartCoroutine(Delay(socket, callback));
+        if (socket)
+            StartCoroutine(Delay(socket, callback));
 
         return socket && socket.isActiveAndEnabled;
     }

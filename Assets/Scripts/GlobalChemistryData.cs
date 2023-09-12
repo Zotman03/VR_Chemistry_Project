@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GlobalChemistryData : MonoBehaviour
 {
-    public static GlobalChemistryData Instance;
+    public static GlobalChemistryData instance;
 
     // chemical substances: substanceOne + substanceTwo -> substanceEnd
     public string substanceOne = "N";
@@ -17,16 +17,14 @@ public class GlobalChemistryData : MonoBehaviour
     public float molesOfSubstanceTwo = 3f;
     public float molesOfSubstanceResult = 2f;
 
+    public string mixedChemicalOne = "";
+    public string mixedChemicalTwo = "";
+    public float mixedChemicalOneAmount = 0f;
+    public float mixedChemicalTwoAmount = 0f;
+
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        instance = this;
+        DontDestroyOnLoad(this.gameObject);
     }
 }
