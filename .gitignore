@@ -75,3 +75,6 @@ crashlytics-build.properties
 .DS_Store
 Packages/manifest.json
 Packages/packages-lock.json
+/[Aa]ssets/google-services*
+/[Aa]ssets/**/google-services*
+/[Aa]ssets/Firebase/**/FirebaseCppApp-11_4_0.bundle
