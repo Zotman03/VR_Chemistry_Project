@@ -405,7 +405,7 @@ public class LiquidTransfer : MonoBehaviour
         Renderer renderer = obj.GetComponent<Renderer>();
         if (renderer == null)
         {
-            NextScene();
+            //NextScene();
             yield break;
         }
 
@@ -420,7 +420,7 @@ public class LiquidTransfer : MonoBehaviour
             yield return null;
         }
 
-        NextScene();
+        //NextScene();
     }
 
     public void NextScene()
