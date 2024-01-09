@@ -10,6 +10,7 @@ public class SocketActivityControl : MonoBehaviour
     Rigidbody rb;
     Collider[] colliders;
     List<XRBaseInteractable> currentHoveredInteractables = new List<XRBaseInteractable>();
+    Liquid socketLiquid;
 
     private void Awake()
     {
@@ -17,6 +18,7 @@ public class SocketActivityControl : MonoBehaviour
         interactable = GetComponent<XRBaseInteractable>();
         rb = gameObject.GetComponent<Rigidbody>();
         colliders = GetComponentsInChildren<Collider>();
+        socketLiquid = GetComponentInChildren<Liquid>();
 
         if (socketInteractor == null)
             Debug.LogError("No XRSocketInteractor component found on object " + gameObject.name);
@@ -59,6 +61,13 @@ public class SocketActivityControl : MonoBehaviour
         rb.useGravity = false;
         foreach (Collider collider in colliders)
             collider.enabled = false;
+        if (socketLiquid)
+        {
+            GlobalChemistryData.instance.mixedChemicalOne = socketLiquid.topSubstance;
+            GlobalChemistryData.instance.mixedChemicalTwo = socketLiquid.foamSubstance;
+            GlobalChemistryData.instance.mixedChemicalOneAmount = socketLiquid.topSubstanceAmount;
+            GlobalChemistryData.instance.mixedChemicalTwoAmount = socketLiquid.foamSubstanceAmount;
+        }
     }
 
     private void OnSelectExit(SelectExitEventArgs args)

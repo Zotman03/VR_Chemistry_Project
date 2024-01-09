@@ -9,6 +9,7 @@ TagManager:
   - Non Liquid
   - Stationary Object
   - Container
+  - Submission Plate
   layers:
   - Default
   - TransparentFX

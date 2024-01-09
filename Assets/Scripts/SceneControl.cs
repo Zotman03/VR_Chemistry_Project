@@ -16,4 +16,11 @@ public class SceneControl : MonoBehaviour
         SceneManager.LoadScene("TestLaboratory");
         Debug.Log("Return to test laboratory...");
     }
+
+    public void ExitScene()
+    {
+        Application.Quit();
+        Debug.Log("Exit scene...");
+    }
+
 }
