@@ -18,9 +18,9 @@ public class LabMenuTextValue : MonoBehaviour
         {
             myInputField.text = "Amounts:\n";
             if (GlobalChemistryData.instance.mixedChemicalOneAmount != 0)
-                myInputField.text += GlobalChemistryData.instance.mixedChemicalOne + " - " + (GlobalChemistryData.instance.mixedChemicalOneAmount * 10).ToString() + " moles" + "\n";
+                myInputField.text += GlobalChemistryData.instance.mixedChemicalOne + " - " + (GlobalChemistryData.instance.mixedChemicalOneAmount * 10).ToString("F2") + " moles" + "\n";
             if (GlobalChemistryData.instance.mixedChemicalTwoAmount != 0)
-                myInputField.text += GlobalChemistryData.instance.mixedChemicalTwo + " - " + (GlobalChemistryData.instance.mixedChemicalTwoAmount * 10).ToString() + " moles";
+                myInputField.text += GlobalChemistryData.instance.mixedChemicalTwo + " - " + (GlobalChemistryData.instance.mixedChemicalTwoAmount * 10).ToString("F2") + " moles";
         }
     }
 }
