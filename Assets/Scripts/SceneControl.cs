@@ -13,7 +13,7 @@ public class SceneControl : MonoBehaviour
 
     public void PrevScene()
     {
-        SceneManager.LoadScene("TestLaboratory");
+        SceneManager.LoadScene(SceneManager.GetSceneByName("TestLaboratory").buildIndex);
         Debug.Log("Return to test laboratory...");
     }
 
@@ -22,5 +22,10 @@ public class SceneControl : MonoBehaviour
         Application.Quit();
         Debug.Log("Exit scene...");
     }
-
+    
+    public static void ToBondScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetSceneByName("TestSharon").buildIndex);
+        Debug.Log("Go to bond scene...");
+    }
 }

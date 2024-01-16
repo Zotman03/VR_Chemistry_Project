@@ -11,6 +11,7 @@ public class SocketActivityControl : MonoBehaviour
     Collider[] colliders;
     List<XRBaseInteractable> currentHoveredInteractables = new List<XRBaseInteractable>();
     Liquid socketLiquid;
+    bool currSocket = false;
 
     private void Awake()
     {
@@ -41,6 +42,15 @@ public class SocketActivityControl : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (currSocket && Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("Change to bond scene");
+            SceneControl.ToBondScene();
+        }
+    }
+
     private void SocketOnHoverEnter(HoverEnterEventArgs args)
     {
         XRBaseInteractable interactableObj = args.interactableObject as XRBaseInteractable;
@@ -67,6 +77,11 @@ public class SocketActivityControl : MonoBehaviour
             GlobalChemistryData.instance.mixedChemicalTwo = socketLiquid.foamSubstance;
             GlobalChemistryData.instance.mixedChemicalOneAmount = socketLiquid.topSubstanceAmount;
             GlobalChemistryData.instance.mixedChemicalTwoAmount = socketLiquid.foamSubstanceAmount;
+            if (GlobalChemistryData.instance.gameStatus == "Incorrect")
+            {
+                GlobalChemistryData.instance.gameStatus = "Ongoing";
+            }
+            currSocket = true;
         }
     }
 
@@ -83,6 +98,7 @@ public class SocketActivityControl : MonoBehaviour
             if (!otherSocket || isActive)
                 socketInteractor.socketActive = true;
         });
+        currSocket = false;
     }
 
     XRSocketInteractor CheckHoveredSocket()

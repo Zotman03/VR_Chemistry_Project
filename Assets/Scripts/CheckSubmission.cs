@@ -7,8 +7,9 @@ public class CheckSubmission : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("GlobalChemistryData.instance.substanceResult = " + GlobalChemistryData.instance.substanceResult);
+        Debug.Log("GlobalChemistryData.instance.molesOfSubstanceResult = " + GlobalChemistryData.instance.molesOfSubstanceResult);
         Debug.Log("GlobalChemistryData.instance.mixedChemicalCombined = " + GlobalChemistryData.instance.mixedChemicalCombined);
-        Debug.Log("GlobalChemistryData.instance.substanceTwo = " + GlobalChemistryData.instance.substanceTwo);
         Debug.Log("GlobalChemistryData.instance.mixedChemicalCombinedAmount = " + GlobalChemistryData.instance.mixedChemicalCombinedAmount);
     }
 
@@ -24,6 +25,9 @@ public class CheckSubmission : MonoBehaviour
                 GlobalChemistryData.instance.mixedChemicalCombinedAmount == GlobalChemistryData.instance.molesOfSubstanceResult)
             {
                 GlobalChemistryData.instance.gameStatus = "Finished";
+            } else
+            {
+                GlobalChemistryData.instance.gameStatus = "Incorrect";
             }
             Debug.Log("status " + GlobalChemistryData.instance.gameStatus);
         }

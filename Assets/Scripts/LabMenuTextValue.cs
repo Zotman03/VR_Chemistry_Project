@@ -14,6 +14,14 @@ public class LabMenuTextValue : MonoBehaviour
         {
             myInputField.text = "Congrats on completing the lab!";
         }
+        else if (GlobalChemistryData.instance.gameStatus == "Incorrect")
+        {
+            myInputField.text = "Incorrect contents.\nPlease try again.\n";
+            myInputField.text += "Reminder: ";
+            myInputField.text += GlobalChemistryData.instance.molesOfSubstanceOne + GlobalChemistryData.instance.substanceOne + " + ";
+            myInputField.text += GlobalChemistryData.instance.molesOfSubstanceTwo + GlobalChemistryData.instance.substanceTwo;
+            myInputField.text += " -> " + GlobalChemistryData.instance.molesOfSubstanceResult + GlobalChemistryData.instance.substanceResult;
+        }
         else
         {
             myInputField.text = "Amounts:\n";
