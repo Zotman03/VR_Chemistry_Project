@@ -16,4 +16,16 @@ public class SceneControl : MonoBehaviour
         SceneManager.LoadScene("TestLaboratory");
         Debug.Log("Return to test laboratory...");
     }
+
+    public void ExitScene()
+    {
+        Application.Quit();
+        Debug.Log("Exit scene...");
+    }
+    
+    public static void ToBondScene()
+    {
+        SceneManager.LoadScene("TestSharon");
+        Debug.Log("Go to bond scene...");
+    }
 }

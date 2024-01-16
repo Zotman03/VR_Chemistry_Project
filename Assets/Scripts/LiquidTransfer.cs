@@ -159,16 +159,15 @@ public class LiquidTransfer : MonoBehaviour
                         ((socketLiquid.topSubstanceAmount >= fillAmountOfSubstanceOne && socketLiquid.foamSubstanceAmount >= fillAmountOfSubstanceTwo) ||
                         (socketLiquid.topSubstanceAmount >= fillAmountOfSubstanceTwo && socketLiquid.foamSubstanceAmount >= fillAmountOfSubstanceOne)))
                         {
-                            GlobalChemistryData.instance.mixedChemicalOne = socketLiquid.topSubstance;
-                            GlobalChemistryData.instance.mixedChemicalTwo = socketLiquid.foamSubstance;
-                            GlobalChemistryData.instance.mixedChemicalOneAmount = socketLiquid.topSubstanceAmount;
-                            GlobalChemistryData.instance.mixedChemicalTwoAmount = socketLiquid.foamSubstanceAmount;
-
                             DuplicateObject(this.gameObject);
                             canDuplicate = false;
                             grabbableLiquid.isSocketed = false;
                         }
                     }
+                    GlobalChemistryData.instance.mixedChemicalOne = socketLiquid.topSubstance;
+                    GlobalChemistryData.instance.mixedChemicalTwo = socketLiquid.foamSubstance;
+                    GlobalChemistryData.instance.mixedChemicalOneAmount = socketLiquid.topSubstanceAmount;
+                    GlobalChemistryData.instance.mixedChemicalTwoAmount = socketLiquid.foamSubstanceAmount;
                 }
                 else
                 {
@@ -240,16 +239,17 @@ public class LiquidTransfer : MonoBehaviour
                         ((grabbableLiquid.topSubstanceAmount >= fillAmountOfSubstanceOne && grabbableLiquid.foamSubstanceAmount >= fillAmountOfSubstanceTwo) ||
                         (grabbableLiquid.topSubstanceAmount >= fillAmountOfSubstanceTwo && grabbableLiquid.foamSubstanceAmount >= fillAmountOfSubstanceOne)))
                         {
-                            GlobalChemistryData.instance.mixedChemicalOne = grabbableLiquid.topSubstance;
-                            GlobalChemistryData.instance.mixedChemicalTwo = grabbableLiquid.foamSubstance;
-                            GlobalChemistryData.instance.mixedChemicalOneAmount = grabbableLiquid.topSubstanceAmount;
-                            GlobalChemistryData.instance.mixedChemicalTwoAmount = grabbableLiquid.foamSubstanceAmount;
+                            
 
                             DuplicateObject(grabbableObject);
                             canDuplicate = false;
                             grabbableLiquid.isSocketed = false;
                         }
                     }
+                    GlobalChemistryData.instance.mixedChemicalOne = grabbableLiquid.topSubstance;
+                    GlobalChemistryData.instance.mixedChemicalTwo = grabbableLiquid.foamSubstance;
+                    GlobalChemistryData.instance.mixedChemicalOneAmount = grabbableLiquid.topSubstanceAmount;
+                    GlobalChemistryData.instance.mixedChemicalTwoAmount = grabbableLiquid.foamSubstanceAmount;
                 }
             }
             else if (socketLiquid && socketInteractor.hasSelection)
@@ -329,22 +329,22 @@ public class LiquidTransfer : MonoBehaviour
                         canReact = true;
             }
             else
+            {
+                if (canDuplicate == true &&
+                ((socketLiquid.topSubstanceAmount >= fillAmountOfSubstanceOne && socketLiquid.foamSubstanceAmount >= fillAmountOfSubstanceTwo) ||
+                (socketLiquid.topSubstanceAmount >= fillAmountOfSubstanceTwo && socketLiquid.foamSubstanceAmount >= fillAmountOfSubstanceOne)))
                 {
-                    if (canDuplicate == true &&
-                    ((socketLiquid.topSubstanceAmount >= fillAmountOfSubstanceOne && socketLiquid.foamSubstanceAmount >= fillAmountOfSubstanceTwo) ||
-                    (socketLiquid.topSubstanceAmount >= fillAmountOfSubstanceTwo && socketLiquid.foamSubstanceAmount >= fillAmountOfSubstanceOne)))
-                    {
-                        GlobalChemistryData.instance.mixedChemicalOne = socketLiquid.topSubstance;
-                        GlobalChemistryData.instance.mixedChemicalTwo = socketLiquid.foamSubstance;
-                        GlobalChemistryData.instance.mixedChemicalOneAmount = socketLiquid.topSubstanceAmount;
-                        GlobalChemistryData.instance.mixedChemicalTwoAmount = socketLiquid.foamSubstanceAmount;
-
-                        DuplicateObject(this.gameObject);
-                        canDuplicate = false;
-                        socketLiquid.isSocketed = false;
-                    }
+                    DuplicateObject(this.gameObject);
+                    canDuplicate = false;
+                    socketLiquid.isSocketed = false;
                 }
             }
+            GlobalChemistryData.instance.mixedChemicalOne = socketLiquid.topSubstance;
+            GlobalChemistryData.instance.mixedChemicalTwo = socketLiquid.foamSubstance;
+            GlobalChemistryData.instance.mixedChemicalOneAmount = socketLiquid.topSubstanceAmount;
+            GlobalChemistryData.instance.mixedChemicalTwoAmount = socketLiquid.foamSubstanceAmount;
+        }
+
     }
 
     void DuplicateObject(GameObject gameObjectDupl = null)
@@ -405,7 +405,7 @@ public class LiquidTransfer : MonoBehaviour
         Renderer renderer = obj.GetComponent<Renderer>();
         if (renderer == null)
         {
-            NextScene();
+            //NextScene();
             yield break;
         }
 
@@ -420,7 +420,7 @@ public class LiquidTransfer : MonoBehaviour
             yield return null;
         }
 
-        NextScene();
+        //NextScene();
     }
 
     public void NextScene()

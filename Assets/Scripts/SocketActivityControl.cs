@@ -10,6 +10,8 @@ public class SocketActivityControl : MonoBehaviour
     Rigidbody rb;
     Collider[] colliders;
     List<XRBaseInteractable> currentHoveredInteractables = new List<XRBaseInteractable>();
+    Liquid socketLiquid;
+    bool currSocket = false;
 
     private void Awake()
     {
@@ -17,6 +19,7 @@ public class SocketActivityControl : MonoBehaviour
         interactable = GetComponent<XRBaseInteractable>();
         rb = gameObject.GetComponent<Rigidbody>();
         colliders = GetComponentsInChildren<Collider>();
+        socketLiquid = GetComponentInChildren<Liquid>();
 
         if (socketInteractor == null)
             Debug.LogError("No XRSocketInteractor component found on object " + gameObject.name);
@@ -36,6 +39,15 @@ public class SocketActivityControl : MonoBehaviour
         if (interactable != null) {
             interactable.selectEntered.AddListener(OnSelectEnter);
             interactable.selectExited.AddListener(OnSelectExit);
+        }
+    }
+
+    private void Update()
+    {
+        if (currSocket && Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("Change to bond scene");
+            SceneControl.ToBondScene();
         }
     }
 
@@ -59,6 +71,18 @@ public class SocketActivityControl : MonoBehaviour
         rb.useGravity = false;
         foreach (Collider collider in colliders)
             collider.enabled = false;
+        if (socketLiquid)
+        {
+            GlobalChemistryData.instance.mixedChemicalOne = socketLiquid.topSubstance;
+            GlobalChemistryData.instance.mixedChemicalTwo = socketLiquid.foamSubstance;
+            GlobalChemistryData.instance.mixedChemicalOneAmount = socketLiquid.topSubstanceAmount;
+            GlobalChemistryData.instance.mixedChemicalTwoAmount = socketLiquid.foamSubstanceAmount;
+            if (GlobalChemistryData.instance.gameStatus == "Incorrect")
+            {
+                GlobalChemistryData.instance.gameStatus = "Ongoing";
+            }
+            currSocket = true;
+        }
     }
 
     private void OnSelectExit(SelectExitEventArgs args)
@@ -74,6 +98,7 @@ public class SocketActivityControl : MonoBehaviour
             if (!otherSocket || isActive)
                 socketInteractor.socketActive = true;
         });
+        currSocket = false;
     }
 
     XRSocketInteractor CheckHoveredSocket()
