@@ -92,98 +92,6 @@
 // //         // You'll need a reference to the connected object to do this
 // //     }
 // // }
-// using System.Collections;
-// using UnityEngine;
-
-// public class Connect : MonoBehaviour
-// {
-//     public bool isAlreadyConnected = false;
-//     private GameObject connectedObject;
-
-//     void OnCollisionEnter(Collision collision)
-//     {
-//         if (isAlreadyConnected)
-//         {
-//             return;
-//         }
-
-//         Connect otherSphere = collision.gameObject.GetComponent<Connect>();
-//         //NAConnect naSphere = collision.gameObject.GetComponent<NAConnect>();
-
-//         if (otherSphere && !otherSphere.isAlreadyConnected)
-//         {
-//             Bond(collision.gameObject);
-//             otherSphere.Bonded(this.gameObject); // Pass this gameObject as the one it's connected to
-//             isAlreadyConnected = true;
-//         }
-//         // else if (naSphere && !naSphere.isAlreadyConnected)
-//         // {
-//         //     // Presuming NAConnect has a similar structure to Connect
-//         //     Bond(collision.gameObject);
-//         //     //naSphere.Bonded(this.gameObject);
-//         //     isAlreadyConnected = true;
-//         // }
-//     }
-
-//     void Bond(GameObject other)
-//     {
-//         FixedJoint joint = gameObject.AddComponent<FixedJoint>();
-//         joint.connectedBody = other.GetComponent<Rigidbody>();
-//         connectedObject = other;
-//     }
-
-//     public void Bonded(GameObject other)
-//     {
-//         isAlreadyConnected = true;
-//         connectedObject = other;
-//     }
-
-//     public void BreakBond()
-//     {
-//         FixedJoint joint = GetComponent<FixedJoint>();
-//         if (joint)
-//         {
-//             Destroy(joint);
-//         }
-//         if (connectedObject != null)
-//         {
-//             // Call a method on the connected object to break the bond from its side
-//             Connect otherConnect = connectedObject.GetComponent<Connect>();
-//             if (otherConnect != null)
-//             {
-//                 otherConnect.BreakBondFromOther(); // This should be a method that only breaks the bond without calling Disconnect
-//             }
-//             connectedObject = null;
-//         }
-//         StartCoroutine(ResetAfterPhysicsUpdate());
-//     }
-
-//     // This method gets called by the other object when it breaks the bond
-//     public void BreakBondFromOther()
-//     {
-//         FixedJoint joint = GetComponent<FixedJoint>();
-//         if (joint)
-//         {
-//             Destroy(joint);
-//         }
-//         connectedObject = null;
-//         isAlreadyConnected = false;
-//         // No need for the coroutine here since it's called by BreakBond
-//     }
-
-//     private IEnumerator ResetAfterPhysicsUpdate()
-//     {
-//         yield return new WaitForFixedUpdate();
-//         isAlreadyConnected = false;
-//         Rigidbody rb = GetComponent<Rigidbody>();
-//         if (rb != null)
-//         {
-//             rb.isKinematic = false;
-//             rb.velocity = Vector3.zero;
-//             rb.angularVelocity = Vector3.zero;
-//         }
-//     }
-// }
 
 using System.Collections;
 using UnityEngine;
@@ -227,6 +135,24 @@ public class Connect : MonoBehaviour
         Debug.Log("Creating bond with: " + other.name);
         FixedJoint joint = gameObject.AddComponent<FixedJoint>();
         joint.connectedBody = other.GetComponent<Rigidbody>();
+
+        GameObject parentCL = gameObject.transform.parent.gameObject;
+        Debug.Log(parentCL);
+        GameObject otherParentCL = other.transform.parent.gameObject;
+        Debug.Log(otherParentCL);
+
+        // Check if the parent CL GameObjects have Rigidbodies and are not already connected
+        Rigidbody parentRb = parentCL.GetComponent<Rigidbody>();
+        Rigidbody otherParentRb = otherParentCL.GetComponent<Rigidbody>();
+
+        if (parentRb != null && otherParentRb != null)
+        {
+            FixedJoint parentJoint = parentCL.AddComponent<FixedJoint>();
+            parentJoint.connectedBody = otherParentRb;
+
+            gameObject.GetComponent<Connect>().isAlreadyConnected = true;
+            other.GetComponent<Connect>().isAlreadyConnected = true;
+        }
         connectedObject = other;
     }
 
