@@ -100,6 +100,7 @@ public class Connect : MonoBehaviour
 {
     public bool isAlreadyConnected = false;
     private GameObject connectedObject;
+    public float maxDistance = 5.0f;
 
     void OnCollisionEnter(Collision collision)
     {
@@ -206,6 +207,23 @@ public class Connect : MonoBehaviour
             rb.isKinematic = false;
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+        }
+    }
+    void Update()
+    {
+        if (isAlreadyConnected && connectedObject != null)
+        {
+            float distance = Vector3.Distance(transform.position, connectedObject.transform.position);
+
+            if (distance > maxDistance)
+            {
+                BreakBond();
+                Connect otherConnect = connectedObject.GetComponent<Connect>();
+                if (otherConnect != null)
+                {
+                    otherConnect.BreakBondFromOther();
+                }
+            }
         }
     }
 }
