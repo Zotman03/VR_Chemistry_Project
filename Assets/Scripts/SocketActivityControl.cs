@@ -69,6 +69,7 @@ public class SocketActivityControl : MonoBehaviour
         socketInteractor.socketActive = false;
         rb.isKinematic = true;
         rb.useGravity = false;
+        rb.mass = .1f;
         foreach (Collider collider in colliders)
             collider.enabled = false;
         if (socketLiquid)
@@ -124,6 +125,7 @@ public class SocketActivityControl : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         callback.Invoke(socket && socket.isActiveAndEnabled);
+        rb.mass = 1f;
     }
 
     private void OnDestroy()

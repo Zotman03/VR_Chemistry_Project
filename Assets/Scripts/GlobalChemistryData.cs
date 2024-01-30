@@ -9,12 +9,12 @@ public class GlobalChemistryData : MonoBehaviour
     // chemical substances: substanceOne + substanceTwo -> substanceEnd
     public string substanceOne = "N";
     public string substanceTwo = "H";
-    public string substanceResult = "NH";
+    public string substanceResult = "NH2";
 
     // minimum moles of each chemical substance for a reaction
     // molesOfSubstanceOne(substanceOne) + molesOfSubstanceTwo(substanceTwo) -> molesOfSubstanceResult(substanceResult)
     public float molesOfSubstanceOne = 2f;
-    public float molesOfSubstanceTwo = 3f;
+    public float molesOfSubstanceTwo = 4f;
     public float molesOfSubstanceResult = 2f;
 
     public string mixedChemicalOne = "";
