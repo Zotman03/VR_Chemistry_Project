@@ -44,7 +44,7 @@ public class SocketActivityControl : MonoBehaviour
 
     private void Update()
     {
-        if (currSocket && Input.GetKeyDown(KeyCode.Q))
+        if (currSocket && (Input.GetKeyDown(KeyCode.Q) || Input.GetAxis("Oculus_CrossPlatform_SecondaryIndexTrigger") > 0.5f))
         {
             Debug.Log("Change to bond scene");
             SceneControl.ToBondScene();
@@ -61,6 +61,7 @@ public class SocketActivityControl : MonoBehaviour
     private void SocketOnHoverExit(HoverExitEventArgs args)
     {
         XRBaseInteractable interactableObj = args.interactableObject as XRBaseInteractable;
+        interactableObj.GetComponent<XRSocketInteractor>().socketActive = true;
         currentHoveredInteractables.Remove(interactableObj);
     }
 
@@ -69,7 +70,7 @@ public class SocketActivityControl : MonoBehaviour
         socketInteractor.socketActive = false;
         rb.isKinematic = true;
         rb.useGravity = false;
-        rb.mass = .1f;
+        rb.mass = 2f;
         foreach (Collider collider in colliders)
             collider.enabled = false;
         if (socketLiquid)
@@ -96,10 +97,11 @@ public class SocketActivityControl : MonoBehaviour
         XRSocketInteractor otherSocket = CheckHoveredSocket();
         IsSocketTriggered(otherSocket, (isActive) =>
         {
-            if (!otherSocket || isActive)
-                socketInteractor.socketActive = true;
+            if (otherSocket)
+                otherSocket.socketActive = true;
         });
         currSocket = false;
+        rb.mass = 10f;
     }
 
     XRSocketInteractor CheckHoveredSocket()
@@ -118,14 +120,13 @@ public class SocketActivityControl : MonoBehaviour
         if (socket)
             StartCoroutine(Delay(socket, callback));
 
-        return socket && socket.isActiveAndEnabled;
+        return true;
     }
 
     IEnumerator Delay(XRSocketInteractor socket, System.Action<bool> callback)
     {
         yield return new WaitForSeconds(2f);
-        callback.Invoke(socket && socket.isActiveAndEnabled);
-        rb.mass = 1f;
+        callback.Invoke(true);
     }
 
     private void OnDestroy()

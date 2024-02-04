@@ -25,7 +25,7 @@ public class SceneControl : MonoBehaviour
     
     public static void ToBondScene()
     {
-        SceneManager.LoadScene("TestSharon");
+        SceneManager.LoadScene("BondScene");
         Debug.Log("Go to bond scene...");
     }
 }
