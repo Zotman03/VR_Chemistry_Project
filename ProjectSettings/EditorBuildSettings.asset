@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/DavidJumpTo.unity
     guid: f23d90e2d025c496da83c45adaacb032
   - enabled: 1
+    path: Assets/Scenes/Laboratory.unity
+    guid: 42b9184e24f6bbe418f9fe666c708f44
+  - enabled: 1
     path: Assets/Scenes/BondScene.unity
     guid: 79a89ca5f014f43daa69dce4695544bb
   m_configObjects:

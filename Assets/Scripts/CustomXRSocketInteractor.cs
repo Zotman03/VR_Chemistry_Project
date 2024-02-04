@@ -10,30 +10,30 @@ public class CustomXRSocketInteractor : XRSocketInteractor
     public Transform largeAttachPoint;
     Transform chosenAttach;
 
-    public override bool CanSelect(IXRSelectInteractable interactable)
-    {
-        /*
-        if ((interactable as XRBaseInteractor) != null) {
-            Debug.Log("checked canselect for... " + (interactable as XRBaseInteractor).name);
-        }
-        */
-        /*
-        if (interactable.isSelected && interactable.selectingInteractor != this)
-        {
-            Debug.Log("considered is alr selected for " + this.name);
-            return true;
-        }*/
+    //public override bool CanSelect(IXRSelectInteractable interactable)
+    //{
+    //    /*
+    //    if ((interactable as XRBaseInteractor) != null) {
+    //        Debug.Log("checked canselect for... " + (interactable as XRBaseInteractor).name);
+    //    }
+    //    */
+    //    /*
+    //    if (interactable.isSelected && interactable.selectingInteractor != this)
+    //    {
+    //        Debug.Log("considered is alr selected for " + this.name);
+    //        return true;
+    //    }*/
 
         
-        if ((interactable != null) && ((interactable as XRBaseInteractable) != null) && (interactable as XRBaseInteractable).gameObject.CompareTag("GameController"))
-        {
-            // For demonstration: Always allow selection by gamecontroller.
-            // Add more logic if needed.
-            return true;
-        }
+    //    if ((interactable != null) && ((interactable as XRBaseInteractable) != null) && (interactable as XRBaseInteractable).gameObject.CompareTag("GameController"))
+    //    {
+    //        // For demonstration: Always allow selection by gamecontroller.
+    //        // Add more logic if needed.
+    //        return true;
+    //    }
 
-        return base.CanSelect(interactable);
-    }
+    //    return base.CanSelect(interactable);
+    //}
 
     /*
 

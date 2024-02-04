@@ -44,7 +44,8 @@ public class SocketActivityControl : MonoBehaviour
 
     private void Update()
     {
-        if (currSocket && Input.GetKeyDown(KeyCode.Q))
+        OVRInput.Update();
+        if (currSocket && (Input.GetKeyDown(KeyCode.Q) || OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.5f || OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) > 0.5f))
         {
             Debug.Log("Change to bond scene");
             SceneControl.ToBondScene();
@@ -61,6 +62,7 @@ public class SocketActivityControl : MonoBehaviour
     private void SocketOnHoverExit(HoverExitEventArgs args)
     {
         XRBaseInteractable interactableObj = args.interactableObject as XRBaseInteractable;
+        interactableObj.GetComponent<XRSocketInteractor>().socketActive = true;
         currentHoveredInteractables.Remove(interactableObj);
     }
 
@@ -69,6 +71,7 @@ public class SocketActivityControl : MonoBehaviour
         socketInteractor.socketActive = false;
         rb.isKinematic = true;
         rb.useGravity = false;
+        rb.mass = 2f;
         foreach (Collider collider in colliders)
             collider.enabled = false;
         if (socketLiquid)
@@ -95,10 +98,11 @@ public class SocketActivityControl : MonoBehaviour
         XRSocketInteractor otherSocket = CheckHoveredSocket();
         IsSocketTriggered(otherSocket, (isActive) =>
         {
-            if (!otherSocket || isActive)
-                socketInteractor.socketActive = true;
+            if (otherSocket)
+                otherSocket.socketActive = true;
         });
         currSocket = false;
+        rb.mass = 10f;
     }
 
     XRSocketInteractor CheckHoveredSocket()
@@ -117,13 +121,13 @@ public class SocketActivityControl : MonoBehaviour
         if (socket)
             StartCoroutine(Delay(socket, callback));
 
-        return socket && socket.isActiveAndEnabled;
+        return true;
     }
 
     IEnumerator Delay(XRSocketInteractor socket, System.Action<bool> callback)
     {
         yield return new WaitForSeconds(2f);
-        callback.Invoke(socket && socket.isActiveAndEnabled);
+        callback.Invoke(true);
     }
 
     private void OnDestroy()

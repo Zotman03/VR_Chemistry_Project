@@ -19,13 +19,13 @@ public class SceneControl : MonoBehaviour
 
     public void ExitScene()
     {
-        Application.Quit();
         Debug.Log("Exit scene...");
+        Application.Quit();
     }
     
     public static void ToBondScene()
     {
-        SceneManager.LoadScene("TestSharon");
+        SceneManager.LoadScene("BondScene");
         Debug.Log("Go to bond scene...");
     }
 }
