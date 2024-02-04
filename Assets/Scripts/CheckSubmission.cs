@@ -22,7 +22,7 @@ public class CheckSubmission : MonoBehaviour
             Debug.Log("GlobalChemistryData.instance.mixedChemicalCombined = " + GlobalChemistryData.instance.mixedChemicalCombined);
             Debug.Log("GlobalChemistryData.instance.mixedChemicalCombinedAmount = " + GlobalChemistryData.instance.mixedChemicalCombinedAmount);
             if (GlobalChemistryData.instance.mixedChemicalCombined == GlobalChemistryData.instance.substanceResult &&
-                GlobalChemistryData.instance.mixedChemicalCombinedAmount == GlobalChemistryData.instance.molesOfSubstanceResult)
+                (GlobalChemistryData.instance.mixedChemicalCombinedAmount - GlobalChemistryData.instance.molesOfSubstanceResult < .2f))
             {
                 GlobalChemistryData.instance.gameStatus = "Finished";
             } else

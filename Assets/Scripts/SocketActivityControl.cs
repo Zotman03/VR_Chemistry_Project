@@ -44,7 +44,8 @@ public class SocketActivityControl : MonoBehaviour
 
     private void Update()
     {
-        if (currSocket && (Input.GetKeyDown(KeyCode.Q) || Input.GetAxis("Oculus_CrossPlatform_SecondaryIndexTrigger") > 0.5f))
+        OVRInput.Update();
+        if (currSocket && (Input.GetKeyDown(KeyCode.Q) || OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.5f || OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) > 0.5f))
         {
             Debug.Log("Change to bond scene");
             SceneControl.ToBondScene();
