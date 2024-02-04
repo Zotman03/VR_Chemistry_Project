@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 120363168}
   - component: {fileID: 120363167}
   - component: {fileID: 120363166}
+  - component: {fileID: 120363170}
   m_Layer: 0
   m_Name: RedCL
   m_TagString: tag
@@ -220,6 +221,22 @@ Transform:
   m_Father: {fileID: 1500040189}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &120363170
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120363162}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &155942212
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,9 +249,9 @@ GameObject:
   - component: {fileID: 155942217}
   - component: {fileID: 155942216}
   - component: {fileID: 155942215}
-  - component: {fileID: 155942214}
   - component: {fileID: 155942218}
   - component: {fileID: 155942219}
+  - component: {fileID: 155942220}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -257,20 +274,6 @@ Transform:
   m_Father: {fileID: 164481449}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &155942214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 155942212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1a203dff6bbe4ed39fe424c89965d58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isAlreadyConnected: 0
-  maxDistance: 5
 --- !u!135 &155942215
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -346,7 +349,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -357,7 +360,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 155942212}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f9e07f4aae48494ab7fc741c0280250, type: 3}
   m_Name: 
@@ -365,6 +368,18 @@ MonoBehaviour:
   player: {fileID: 1812718919}
   orbitSpeed: 15
   degreesPerSecond: 45
+--- !u!114 &155942220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155942212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bdd1f8b2e2d7455283af7202ec42e74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &164481445
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,6 +392,7 @@ GameObject:
   - component: {fileID: 164481448}
   - component: {fileID: 164481447}
   - component: {fileID: 164481446}
+  - component: {fileID: 164481450}
   m_Layer: 0
   m_Name: CL (1)
   m_TagString: Untagged
@@ -556,7 +572,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 164481445}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f9e07f4aae48494ab7fc741c0280250, type: 3}
   m_Name: 
@@ -581,6 +597,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &164481450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164481445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a203dff6bbe4ed39fe424c89965d58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  subGameObjectA: {fileID: 155942212}
+  isAlreadyConnected: 0
+  maxDistance: 5
 --- !u!1 &216485067
 GameObject:
   m_ObjectHideFlags: 0
@@ -1120,8 +1151,8 @@ GameObject:
   - component: {fileID: 302415741}
   - component: {fileID: 302415740}
   - component: {fileID: 302415739}
-  - component: {fileID: 302415738}
   - component: {fileID: 302415742}
+  - component: {fileID: 302415743}
   m_Layer: 0
   m_Name: 2Electron-1
   m_TagString: Untagged
@@ -1144,20 +1175,6 @@ Transform:
   m_Father: {fileID: 1500040189}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &302415738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 302415736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1a203dff6bbe4ed39fe424c89965d58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isAlreadyConnected: 0
-  maxDistance: 5
 --- !u!135 &302415739
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1233,10 +1250,22 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &302415743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 302415736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bdd1f8b2e2d7455283af7202ec42e74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &586630637
 GameObject:
   m_ObjectHideFlags: 0
@@ -1694,6 +1723,7 @@ GameObject:
   - component: {fileID: 1500040188}
   - component: {fileID: 1500040191}
   - component: {fileID: 1500040190}
+  - component: {fileID: 1500040192}
   m_Layer: 0
   m_Name: CL
   m_TagString: Untagged
@@ -1898,6 +1928,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1500040192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500040187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a203dff6bbe4ed39fe424c89965d58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  subGameObjectA: {fileID: 302415736}
+  isAlreadyConnected: 0
+  maxDistance: 5
 --- !u!1 &1531495778
 GameObject:
   m_ObjectHideFlags: 0
@@ -2610,6 +2655,7 @@ GameObject:
   - component: {fileID: 1812718918}
   - component: {fileID: 1812718917}
   - component: {fileID: 1812718916}
+  - component: {fileID: 1812718920}
   m_Layer: 0
   m_Name: Cl(1)
   m_TagString: tag
@@ -2695,6 +2741,22 @@ Transform:
   m_Father: {fileID: 164481449}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1812718920
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812718915}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1884719834
 GameObject:
   m_ObjectHideFlags: 0
