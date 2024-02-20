@@ -13,7 +13,7 @@ public class SceneControl : MonoBehaviour
 
     public void PrevScene()
     {
-        SceneManager.LoadScene("TestLaboratory");
+        SceneManager.LoadScene("Laboratory");
         Debug.Log("Return to test laboratory...");
     }
 
@@ -22,7 +22,7 @@ public class SceneControl : MonoBehaviour
         Debug.Log("Exit scene...");
         Application.Quit();
     }
-    
+
     public static void ToBondScene()
     {
         SceneManager.LoadScene("BondScene");
