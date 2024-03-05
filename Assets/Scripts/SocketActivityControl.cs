@@ -13,6 +13,9 @@ public class SocketActivityControl : MonoBehaviour
     Liquid socketLiquid;
     bool currSocket = false;
 
+    private IDataService DataService = new JsonDataService();
+    private LiquidState liquidState = new LiquidState();
+
     private void Awake()
     {
         socketInteractor = GetComponent<XRSocketInteractor>();
@@ -48,6 +51,7 @@ public class SocketActivityControl : MonoBehaviour
         if (currSocket && (Input.GetKeyDown(KeyCode.Q) || OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.5f || OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) > 0.5f))
         {
             Debug.Log("Change to bond scene");
+        
             SceneControl.ToBondScene();
         }
     }
@@ -103,6 +107,15 @@ public class SocketActivityControl : MonoBehaviour
         });
         currSocket = false;
         rb.mass = 10f;
+
+        liquidState.topSubstance = socketLiquid.topSubstance;
+        liquidState.topSubstanceAmount = socketLiquid.topSubstanceAmount;
+        liquidState.foamSubstance = socketLiquid.foamSubstance;
+        liquidState.foamSubstanceAmount = socketLiquid.foamSubstanceAmount;
+        liquidState.fillAmount = socketLiquid.fillAmount;
+        liquidState.scaledFillAmount = socketLiquid.scaledFillAmount;
+        liquidState.uniqueID = socketLiquid.uniqueID;
+        DataService.SaveData("/liquid-state-" + socketLiquid.uniqueID + ".json", liquidState, false);
     }
 
     XRSocketInteractor CheckHoveredSocket()

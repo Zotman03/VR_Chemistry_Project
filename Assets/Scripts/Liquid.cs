@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 [ExecuteInEditMode]
 public class Liquid : MonoBehaviour
@@ -15,7 +17,7 @@ public class Liquid : MonoBehaviour
     float WobbleSpeedMove = 1f;
     [SerializeField, Range(0f, 1f)]
     public float fillAmount = 0.5f;
-    float scaledFillAmount;
+    public float scaledFillAmount;
     [SerializeField]
     float Recovery = 1f;
     [SerializeField]
@@ -47,10 +49,37 @@ public class Liquid : MonoBehaviour
     public float topSubstanceAmount = 0f;
     public float foamSubstanceAmount = 0f;
 
+    private IDataService DataService = new JsonDataService();
+    LiquidState liquidState;
+    public int uniqueID = 0;
+
     void Start()
     {
-        foamSubstanceAmount = fillAmount;
-        scaledFillAmount = .27f + (.73f - .25f) * (1 - fillAmount);
+        if (uniqueID == 0)
+        {
+            uniqueID = GetInstanceID();
+        }
+        Debug.Log("uniqueID = " + uniqueID);
+        Debug.Log("GetInstanceID = " + GetInstanceID());
+
+        try
+        {
+            liquidState = DataService.LoadData<LiquidState>("/liquid-state-" + uniqueID + ".json", false);
+            fillAmount = liquidState.fillAmount;
+            scaledFillAmount = liquidState.scaledFillAmount;
+        }
+        catch (Exception e)
+        {
+            liquidState = new LiquidState();
+            fillAmount = liquidState.fillAmount;
+            scaledFillAmount = .27f + (.73f - .25f) * (1 - fillAmount);
+        }
+        topSubstance = liquidState.topSubstance;
+        topSubstanceAmount = liquidState.topSubstanceAmount;
+        foamSubstance = liquidState.foamSubstance;
+        foamSubstanceAmount = liquidState.foamSubstanceAmount;
+        uniqueID = liquidState.uniqueID;
+
         liquidRenderer = GetComponent<Renderer>();
         GetMeshAndRend();
     }
