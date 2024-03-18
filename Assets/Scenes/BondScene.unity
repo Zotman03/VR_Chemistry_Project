@@ -2730,6 +2730,7 @@ GameObject:
   - component: {fileID: 1500040191}
   - component: {fileID: 1500040190}
   - component: {fileID: 1500040192}
+  - component: {fileID: 1500040193}
   m_Layer: 0
   m_Name: N
   m_TagString: Untagged
@@ -2951,6 +2952,19 @@ MonoBehaviour:
   subGameObjectA: {fileID: 302415736}
   isAlreadyConnected: 0
   maxDistance: 5
+--- !u!114 &1500040193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500040187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4260f7771bf3493aa63b8e0a2e9049d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 220613024}
 --- !u!1 &1531495778
 GameObject:
   m_ObjectHideFlags: 0
