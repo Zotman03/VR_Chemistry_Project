@@ -34,7 +34,8 @@ public class JsonDataService : IDataService
             else
             {
                 stream.Close();
-                File.WriteAllText(path, JsonConvert.SerializeObject(Data));
+                string jsonObj = JsonConvert.SerializeObject(Data, Formatting.Indented, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                File.WriteAllText(path, jsonObj);
             }
             return true;
         }

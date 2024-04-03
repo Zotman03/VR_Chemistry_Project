@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GlobalChemistryData : MonoBehaviour
 {
@@ -26,17 +27,38 @@ public class GlobalChemistryData : MonoBehaviour
     public float mixedChemicalCombinedAmount = 1f; //2f;
 
     public string gameStatus = "Incorrect";
+    //public bool newGameOLiquid = true;
+    //public bool newGameHLiquid = true;
+    //public bool newGameNLiquid = true;
 
     private void Awake()
     {
         if (instance == null)
         {
+            ES3.DeleteFile();
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
         {
+            //ES3AutoSaveMgr.Current.Load();
             Destroy(gameObject);
         }
     }
+
+    //private void OnEnable()
+    //{
+    //    SceneManager.sceneLoaded += OnSceneLoaded;
+    //}
+
+    //private void OnDisable()
+    //{
+    //    SceneManager.sceneLoaded -= OnSceneLoaded;
+    //}
+
+    //private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    //{
+    //    Debug.Log("LOAD SAVE UPON SCENE LOAD" + scene.name);
+    //    ES3AutoSaveMgr.Current.Load();
+    //}
 }

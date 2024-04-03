@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public class LiquidState
 {
-    public int uniqueID = 0;
+    //public string uniqueID = "";
 
     public string topSubstance = "";
     public string foamSubstance = "";
@@ -14,4 +16,6 @@ public class LiquidState
 
     public float fillAmount = 0f;
     public float scaledFillAmount = 0f;
+
+    public Vector3 pos;
 }
