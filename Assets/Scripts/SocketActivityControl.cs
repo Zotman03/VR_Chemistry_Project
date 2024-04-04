@@ -32,8 +32,6 @@ public class SocketActivityControl : MonoBehaviour
             Debug.LogError("No XRBaseInteractable component found on object " + gameObject.name);
         if (rb == null)
             Debug.LogError("No Rigidbody component found on object " + gameObject.name);
-
-        sceneControl = new SceneControl();
     }
 
     void Start()
@@ -53,7 +51,9 @@ public class SocketActivityControl : MonoBehaviour
     private void Update()
     {
         OVRInput.Update();
-        if (currSocket && (Input.GetKeyDown(KeyCode.U) || OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.5f || OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) > 0.5f))
+        //if (currSocket &&
+        if (Input.GetKeyDown(KeyCode.U) || OVRInput.GetDown(OVRInput.Button.One))
+        //OVRInput.Get(OVRInput.RawButton.LIndexTrigger) || OVRInput.Get(OVRInput.RawButton.RIndexTrigger))
         {
             //ES3AutoSaveMgr.Current.Save();
             Debug.Log("Change to bond scene");
@@ -123,6 +123,11 @@ public class SocketActivityControl : MonoBehaviour
         });
         currSocket = false;
         rb.mass = 10f;
+
+        if (!socketLiquid)
+        {
+            socketInteractor.socketActive = true;
+        }
 
         //liquidState.topSubstance = socketLiquid.topSubstance;
         //liquidState.topSubstanceAmount = socketLiquid.topSubstanceAmount;

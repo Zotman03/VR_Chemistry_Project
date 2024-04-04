@@ -10,6 +10,7 @@ TagManager:
   - Stationary Object
   - Container
   - Submission Plate
+  - PlayerCamera
   layers:
   - Default
   - TransparentFX
