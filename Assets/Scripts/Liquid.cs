@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 [ExecuteInEditMode]
 public class Liquid : MonoBehaviour
@@ -15,7 +17,7 @@ public class Liquid : MonoBehaviour
     float WobbleSpeedMove = 1f;
     [SerializeField, Range(0f, 1f)]
     public float fillAmount = 0.5f;
-    float scaledFillAmount;
+    public float scaledFillAmount;
     [SerializeField]
     float Recovery = 1f;
     [SerializeField]
@@ -47,10 +49,74 @@ public class Liquid : MonoBehaviour
     public float topSubstanceAmount = 0f;
     public float foamSubstanceAmount = 0f;
 
+    //private IDataService DataService = new JsonDataService();
+    //LiquidState liquidState;
+    ////public string uniqueID = "";
+
     void Start()
     {
-        foamSubstanceAmount = fillAmount;
-        scaledFillAmount = .27f + (.73f - .25f) * (1 - fillAmount);
+        ////Debug.Log("NEW GAME = " + GlobalChemistryData.instance.newGame);
+        //if (
+        //    (gameObject.name == "OLiquid" && GlobalChemistryData.instance.newGameOLiquid == true)
+        //    || (gameObject.name == "NLiquid" && GlobalChemistryData.instance.newGameNLiquid == true)
+        //    || (gameObject.name == "HLiquid" && GlobalChemistryData.instance.newGameHLiquid == true)
+        //)
+        //{
+        //    Debug.Log("INSIDE NULL / INC FOR... " + gameObject.name);
+        //    liquidState = new LiquidState();
+        //    fillAmount = liquidState.fillAmount;
+        //    scaledFillAmount = .27f + (.73f - .25f) * (1 - liquidState.fillAmount);
+        //    topSubstance = liquidState.topSubstance;
+        //    topSubstanceAmount = liquidState.topSubstanceAmount;
+        //    foamSubstance = liquidState.foamSubstance;
+        //    foamSubstanceAmount = liquidState.foamSubstanceAmount;
+        //    liquidState.pos = gameObject.transform.position;
+
+        //    if (gameObject.name == "OLiquid")
+        //    {
+        //        GlobalChemistryData.instance.newGameOLiquid = false;
+        //    } else if (gameObject.name == "NLiquid")
+        //    {
+        //        GlobalChemistryData.instance.newGameNLiquid = false;
+        //    } else if (gameObject.name == "HLiquid")
+        //    {
+        //        GlobalChemistryData.instance.newGameHLiquid = false;
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.Log("INSIDE ONGOING... " + gameObject.name);
+        //    //if (uniqueID == "")
+        //    //{
+        //    //    uniqueID = gameObject.name;
+        //    //}
+        //    //Debug.Log("uniqueID = " + uniqueID);
+        //    //Debug.Log("GObj name = " + gameObject.name);
+
+        //    ////Debug.Log("uniqueID = " + gameObject.name);
+
+        //    try
+        //    {
+        //        liquidState = DataService.LoadData<LiquidState>("/liquid-state-" + gameObject.name + ".json", false);
+        //        fillAmount = liquidState.fillAmount;
+        //        scaledFillAmount = liquidState.scaledFillAmount;
+        //        gameObject.transform.position = liquidState.pos;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        liquidState = new LiquidState();
+        //        fillAmount = liquidState.fillAmount;
+        //        scaledFillAmount = .27f + (.73f - .25f) * (1 - fillAmount);
+        //        //pos = gameObject.transform.position;
+        //        liquidState.pos = gameObject.transform.position;
+        //    }
+        //    topSubstance = liquidState.topSubstance;
+        //    topSubstanceAmount = liquidState.topSubstanceAmount;
+        //    foamSubstance = liquidState.foamSubstance;
+        //    foamSubstanceAmount = liquidState.foamSubstanceAmount;
+        //    //uniqueID = liquidState.uniqueID;
+        //}
+
         liquidRenderer = GetComponent<Renderer>();
         GetMeshAndRend();
     }

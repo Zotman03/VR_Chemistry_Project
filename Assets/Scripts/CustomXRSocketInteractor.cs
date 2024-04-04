@@ -24,7 +24,7 @@ public class CustomXRSocketInteractor : XRSocketInteractor
     //        return true;
     //    }*/
 
-        
+
     //    if ((interactable != null) && ((interactable as XRBaseInteractable) != null) && (interactable as XRBaseInteractable).gameObject.CompareTag("GameController"))
     //    {
     //        // For demonstration: Always allow selection by gamecontroller.
@@ -80,6 +80,7 @@ public class CustomXRSocketInteractor : XRSocketInteractor
         {
             SetAttachTransform(attachTransform);
         }
+
         base.OnSelectEntering(args);
     }
 

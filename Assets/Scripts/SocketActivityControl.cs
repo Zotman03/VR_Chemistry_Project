@@ -12,6 +12,11 @@ public class SocketActivityControl : MonoBehaviour
     List<XRBaseInteractable> currentHoveredInteractables = new List<XRBaseInteractable>();
     Liquid socketLiquid;
     bool currSocket = false;
+    SceneControl sceneControl;
+
+    //private IDataService DataService = new JsonDataService();
+    //private LiquidState liquidState = new LiquidState();
+    //private InteractableState interactableState = new InteractableState();
 
     private void Awake()
     {
@@ -40,15 +45,19 @@ public class SocketActivityControl : MonoBehaviour
             interactable.selectEntered.AddListener(OnSelectEnter);
             interactable.selectExited.AddListener(OnSelectExit);
         }
+        ES3AutoSaveMgr.Current.Load();
     }
 
     private void Update()
     {
         OVRInput.Update();
-        if (currSocket && (Input.GetKeyDown(KeyCode.Q) || OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.5f || OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) > 0.5f))
+        //if (currSocket &&
+        if (Input.GetKeyDown(KeyCode.U) || OVRInput.GetDown(OVRInput.Button.One))
+        //OVRInput.Get(OVRInput.RawButton.LIndexTrigger) || OVRInput.Get(OVRInput.RawButton.RIndexTrigger))
         {
+            //ES3AutoSaveMgr.Current.Save();
             Debug.Log("Change to bond scene");
-            SceneControl.ToBondScene();
+            sceneControl.ToBondScene();
         }
     }
 
@@ -80,11 +89,22 @@ public class SocketActivityControl : MonoBehaviour
             GlobalChemistryData.instance.mixedChemicalTwo = socketLiquid.foamSubstance;
             GlobalChemistryData.instance.mixedChemicalOneAmount = socketLiquid.topSubstanceAmount;
             GlobalChemistryData.instance.mixedChemicalTwoAmount = socketLiquid.foamSubstanceAmount;
+
+            //liquidState.topSubstance = socketLiquid.topSubstance;
+            //liquidState.topSubstanceAmount = socketLiquid.topSubstanceAmount;
+            //liquidState.foamSubstance = socketLiquid.foamSubstance;
+            //liquidState.foamSubstanceAmount = socketLiquid.foamSubstanceAmount;
+            //liquidState.fillAmount = socketLiquid.fillAmount;
+            //liquidState.scaledFillAmount = socketLiquid.scaledFillAmount;
+            //liquidState.pos = socketLiquid.transform.position;
+            //DataService.SaveData("/liquid-state-" + socketLiquid.name + ".json", liquidState, false);
+
             if (GlobalChemistryData.instance.gameStatus == "Incorrect")
             {
                 GlobalChemistryData.instance.gameStatus = "Ongoing";
             }
             currSocket = true;
+            //DataService.SaveData("/liquid-state-" + socketLiquid.name + ".json", liquidState, false);
         }
     }
 
@@ -103,6 +123,20 @@ public class SocketActivityControl : MonoBehaviour
         });
         currSocket = false;
         rb.mass = 10f;
+
+        if (!socketLiquid)
+        {
+            socketInteractor.socketActive = true;
+        }
+
+        //liquidState.topSubstance = socketLiquid.topSubstance;
+        //liquidState.topSubstanceAmount = socketLiquid.topSubstanceAmount;
+        //liquidState.foamSubstance = socketLiquid.foamSubstance;
+        //liquidState.foamSubstanceAmount = socketLiquid.foamSubstanceAmount;
+        //liquidState.fillAmount = socketLiquid.fillAmount;
+        //liquidState.scaledFillAmount = socketLiquid.scaledFillAmount;
+        //liquidState.pos = socketLiquid.transform.position;
+        ////liquidState.uniqueID = socketLiquid.uniqueID;
     }
 
     XRSocketInteractor CheckHoveredSocket()
