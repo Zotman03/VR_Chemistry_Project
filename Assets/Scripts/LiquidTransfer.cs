@@ -143,7 +143,10 @@ public class LiquidTransfer : MonoBehaviour
 
                         socketLiquid.liquidRenderer.material.SetColor("_FoamColor", grabTopColor);
                         socketLiquid.foamSubstanceAmount += liquidChangeAmount;
-                        socketLiquid.foamSubstance = grabbableLiquid.topSubstance;
+                        if (grabbableLiquid.topSubstance != "")
+                            socketLiquid.foamSubstance = grabbableLiquid.topSubstance;
+                        else
+                            socketLiquid.foamSubstance = grabbableLiquid.foamSubstance;
                         if (grabbableLiquid.topSubstanceAmount > 0f && (grabbableLiquid.topSubstanceAmount - liquidChangeAmount) > 0f)
                             grabbableLiquid.topSubstanceAmount -= liquidChangeAmount;
                         else if (grabbableLiquid.foamSubstanceAmount > 0f && (grabbableLiquid.foamSubstanceAmount - liquidChangeAmount) > 0f)

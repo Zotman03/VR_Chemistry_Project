@@ -10,6 +10,7 @@ public class SceneControl : MonoBehaviour
 
     public void ResetScene()
     {
+        ES3.DeleteFile();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Debug.Log("Reset scene...");
     }

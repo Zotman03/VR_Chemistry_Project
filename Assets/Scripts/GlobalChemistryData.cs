@@ -23,8 +23,8 @@ public class GlobalChemistryData : MonoBehaviour
     public float mixedChemicalOneAmount = 0f;
     public float mixedChemicalTwoAmount = 0f;
 
-    public string mixedChemicalCombined = "NH2";
-    public float mixedChemicalCombinedAmount = 2f;
+    public string mixedChemicalCombined = "";
+    public float mixedChemicalCombinedAmount = 0f;
 
     public string gameStatus = "Incorrect";
     //public bool newGameOLiquid = true;

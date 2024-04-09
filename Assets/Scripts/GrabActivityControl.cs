@@ -26,6 +26,12 @@ public class GrabActivityControl : MonoBehaviour
 
     public void OnSelectEnter(SelectEnterEventArgs args)
     {
+        Liquid grabLiquid = GetComponentInChildren<Liquid>();
+        GlobalChemistryData.instance.mixedChemicalOne = grabLiquid.topSubstance;
+        GlobalChemistryData.instance.mixedChemicalOneAmount = grabLiquid.topSubstanceAmount;
+        GlobalChemistryData.instance.mixedChemicalTwo = grabLiquid.foamSubstance;
+        GlobalChemistryData.instance.mixedChemicalTwoAmount = grabLiquid.foamSubstanceAmount;
+
         rb.isKinematic = true;
         foreach (Collider collider in colliders)
             collider.enabled = false;
