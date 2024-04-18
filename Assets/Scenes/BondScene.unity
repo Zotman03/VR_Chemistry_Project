@@ -3449,7 +3449,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1500040187}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1a203dff6bbe4ed39fe424c89965d58, type: 3}
   m_Name: 
@@ -3477,12 +3477,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1500040187}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3b70e75d1b154dcf97163a197391c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   subGameObjectA: {fileID: 302415736}
+  subGameObjectB: {fileID: 0}
   isAlreadyConnected: 0
   maxDistance: 5
 --- !u!1 &1531495778
