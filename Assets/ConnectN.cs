@@ -4,13 +4,14 @@ using UnityEngine;
 public class ConnectN : MonoBehaviour
 {
     public GameObject subGameObjectA;
-    //public GameObject subGameObjectB; // if exist other chemical
+    public GameObject subGameObjectB; // if exist other chemical
     public int isAlreadyConnected = 0;
     private GameObject connectedObject;
     public float maxDistance = 5.0f;
 
     public void OnCollisionEnterChild(GameObject child, Collision collision)
     {
+        Debug.Log(isAlreadyConnected);
         if (isAlreadyConnected == 2)
         {
             return;
@@ -41,7 +42,7 @@ public class ConnectN : MonoBehaviour
             }
         }
 
-        if (isAlreadyConnected == 0 && subGameObjectA != null)
+        if ((isAlreadyConnected == 0 || isAlreadyConnected == 1)&& subGameObjectA != null)
         {
             GameObject closestTarget = null;
             float closestDistance = 0.01f;
